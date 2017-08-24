@@ -1,5 +1,8 @@
 'use strict';
 
+/*!
+ * Create an SVG with the given width and height
+ */
 const createPlaceholder = (width, height) => {
   let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   let svgNS = svg.namespaceURI;
@@ -15,18 +18,20 @@ const createPlaceholder = (width, height) => {
   svg.appendChild(shape);
   return svg;
 }
-
-const setImageToPlaceholder = (image, placeholder) => {
-  let xml = (new XMLSerializer).serializeToString(placeholder);
+/*!
+ * Set an image's src attribute to an SVG
+ */
+const setImageToPlaceholder = (image, svg) => {
+  let xml = (new XMLSerializer).serializeToString(svg);
   image.src = "data:image/svg+xml;charset=utf-8,"+xml;
 }
 /*!
  * Collect all images to be lazy loaded.
  */
-var imgs = document.querySelectorAll('img.lazy');
+const imgs = document.querySelectorAll('img.lazy');
 
 /*!
- * Load initial placeholder for each lazy image based on its width and height
+ * Load each lazy image with an initial placeholder
  */
 imgs.forEach((img) => {
   let imgWidth = img.width, 
@@ -34,6 +39,7 @@ imgs.forEach((img) => {
   let placeholder = createPlaceholder(imgWidth, imgHeight);
   setImageToPlaceholder(img, placeholder);
 });
+
 window.addEventListener('scroll', function() {
   imgs.forEach(function(img) {
     if (img.offsetTop < ((window.innerHeight * .5) + window.scrollY) && img.getAttribute('data-src')) {
