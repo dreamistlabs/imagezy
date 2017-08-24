@@ -25,6 +25,18 @@ const setImageToPlaceholder = (image, svg) => {
   let xml = (new XMLSerializer).serializeToString(svg);
   image.src = "data:image/svg+xml;charset=utf-8,"+xml;
 }
+
+const setTrigger = (threshold) => {
+  if (threshold < 1) {
+    return window.innerHeight * (1 - threshold) + window.scrollY;
+  } else {
+    return window.innerHeight - threshold + window.scrollY;
+  }
+}
+
+const formatThreshold = (threshold) => {
+  return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
+}
 /*!
  * Collect all images to be lazy loaded.
  */
@@ -42,7 +54,9 @@ imgs.forEach((img) => {
 
 window.addEventListener('scroll', function() {
   imgs.forEach(function(img) {
-    if (img.offsetTop < ((window.innerHeight * .5) + window.scrollY) && img.getAttribute('data-src')) {
+    let threshold = formatThreshold(img.getAttribute('data-threshold'));
+
+    if (img.offsetTop < setTrigger(threshold) && img.getAttribute('data-src')) {
       img.setAttribute('src', img.getAttribute('data-src'));
       img.removeAttribute('data-src');
     }
