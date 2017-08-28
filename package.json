@@ -2,7 +2,7 @@
   "name": "imagezy",
   "version": "0.0.1",
   "description": "Load images on your website, lazily.",
-  "main": "src/lib/index.js",
+  "main": "dist/imagezy.js",
   "scripts": {
     "babel": "babel src --presets babel-preset-es2015 --out-dir dist",
     "build": "npm run babel && npm run uglify",
