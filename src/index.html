@@ -4,37 +4,54 @@
   <meta charset="UTF-8">
   <title>Imagezy</title>
   <style>
-  img.lazy {
-    margin: 10rem auto;
-    display: block;
+  div.imagezy {
+    position: relative;
+    display: inline-block;
     width: 700px;
     height: 400px;
+  }
+  div.imagezy:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 1;
+    transition: all 2s;
+  }
+  img.imagezy-img {
+    height: 100%;
+    width: 100%;
+  }
+  div.imagezy.fadeOut:after {
+    opacity: 0;
   }
   </style>
 </head>
 <body>
-  <img class="lazy" 
-        data-src="https://cdn.pixabay.com/photo/2013/08/28/00/54/landscape-176602_960_720.jpg" 
-        data-threshold="200px" />
-  <img class="lazy" 
-        data-src="https://cdn.pixabay.com/photo/2015/02/18/11/50/mountain-landscape-640617_960_720.jpg" 
-        data-threshold="5%" />
-  <img class="lazy" 
-        data-src="http://blog.agroknow.com/wp-content/uploads/2016/03/6835100-landscape.jpg" 
-        data-threshold="75%" />
-  <img class="lazy" 
-        data-src="https://static.pexels.com/photos/36717/amazing-animal-beautiful-beautifull.jpg" 
-        data-threshold="500" />
-  <img class="lazy" 
-        data-src="https://www.goodfreephotos.com/albums/other-landscapes/landscapes-with-lake-and-clouds.jpg" 
-        data-threshold="300" />
-  <img class="lazy" 
-        data-src="https://cdn.lynda.com/course/187498/187498-635561412434883316-16x9.jpg" 
-        data-threshold="100" />
-  <img class="lazy" 
-        data-src="http://eskipaper.com/images/pretty-landscape-sunset-1.jpg" 
-        data-threshold="100" />
-
+  <div class="imagezy" data-src="https://cdn.pixabay.com/photo/2013/08/28/00/54/landscape-176602_960_720.jpg" data-threshold="125">
+  </div>
+  <div class="imagezy" data-src="https://cdn.pixabay.com/photo/2015/02/18/11/50/mountain-landscape-640617_960_720.jpg"
+        data-threshold="125">
+  </div>
+  <div class="imagezy" data-src="http://blog.agroknow.com/wp-content/uploads/2016/03/6835100-landscape.jpg"
+        data-threshold="125">
+  </div>
+  <div class="imagezy" data-src="https://static.pexels.com/photos/36717/amazing-animal-beautiful-beautifull.jpg"
+        data-threshold="125">
+  </div>
+  <div class="imagezy" data-src="https://www.goodfreephotos.com/albums/other-landscapes/landscapes-with-lake-and-clouds.jpg"
+        data-threshold="125">
+  </div>
+  <div class="imagezy" data-src="https://cdn.lynda.com/course/187498/187498-635561412434883316-16x9.jpg"
+        data-threshold="125">
+  </div>
+  <div class="imagezy"  data-src="http://eskipaper.com/images/pretty-landscape-sunset-1.jpg"
+        data-threshold="125">
+  </div>
   <script src="imagezy.js"></script>
 </body>
 </html>

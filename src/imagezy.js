@@ -1,4 +1,5 @@
 'use strict';
+
 (function() {
   /*!
    * Create an SVG with the given width and height
@@ -28,9 +29,9 @@
 
   const setTrigger = (threshold) => {
     if (threshold < 1) {
-      return window.innerHeight * (1 - threshold) + window.scrollY;
+      return window.innerHeight * (1 - threshold);
     } else {
-      return window.innerHeight - threshold + window.scrollY;
+      return window.innerHeight - threshold;
     }
   }
 
@@ -38,28 +39,55 @@
     if (!threshold) { return 0 };
     return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
   }
+
+  const createStylesheet = () => {
+    return document.createElement("style");
+  }
+
+  const appendToHead = (stylesheet) => {
+    document.head.appendChild(stylesheet);
+  }
+
+  /*!
+   * Create and append a new stylesheet to <head>
+   */
+   let style = createStylesheet();
+   appendToHead(style);
+   let sheet = style.sheet;
+   sheet.insertRule(".lazy { width: 700px; }", 0);
+   console.log(sheet);
+
+
   /*!
    * Collect all images to be lazy loaded.
    */
-  const imgs = document.querySelectorAll('img.lazy');
+  const imagezys = document.querySelectorAll('.imagezy');
 
   /*!
    * Load each lazy image with an initial placeholder
    */
-  imgs.forEach((img) => {
-    let imgWidth = img.width, 
-        imgHeight = img.height;
-    let placeholder = createPlaceholder(imgWidth, imgHeight);
-    setImageToPlaceholder(img, placeholder);
+  imagezys.forEach((imagezy) => {
+    let img = document.createElement('img');
+    let imgWidth = imagezy.width;
+    let imgHeight = imagezy.height;
+
+    img.className = "imagezy-img";
+
+    imagezy.appendChild(img);
+
+    // let placeholder = createPlaceholder(imgWidth, imgHeight);
+    // setImageToPlaceholder(img, placeholder);
   });
 
   window.addEventListener('scroll', function() {
-    imgs.forEach(function(img) {
-      let threshold = formatThreshold(img.getAttribute('data-threshold'));
+    imagezys.forEach(function(imagezy) {
+      let threshold = formatThreshold(imagezy.getAttribute('data-threshold'));
+      console.log(imagezy.firstElementChild);
 
-      if (img.offsetTop < setTrigger(threshold) && img.getAttribute('data-src')) {
-        img.setAttribute('src', img.getAttribute('data-src'));
-        img.removeAttribute('data-src');
+      if (imagezy.getBoundingClientRect().top < setTrigger(threshold) && imagezy.getAttribute('data-src')) {
+        imagezy.lastElementChild.setAttribute('src', imagezy.getAttribute('data-src'));
+        imagezy.removeAttribute('data-src');
+        imagezy.classList.add("fadeOut");
       }
     });
   });
