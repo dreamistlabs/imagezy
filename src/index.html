@@ -27,7 +27,12 @@
     width: 100%;
   }
   div.imagezy.fadeOut:after {
-    opacity: 0;
+    animation: fadeOut 1.25s forwards;
+  }
+  @keyframes fadeOut{
+    0% { opacity: 1; }
+    15% { opacity: 0.95; }
+    100% { opacity: 0; }
   }
   </style>
 </head>
