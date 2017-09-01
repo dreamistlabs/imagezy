@@ -82,12 +82,16 @@
   window.addEventListener('scroll', function() {
     imagezys.forEach(function(imagezy) {
       let threshold = formatThreshold(imagezy.getAttribute('data-threshold'));
-      console.log(imagezy.firstElementChild);
+      let imgPosition = imagezy.getBoundingClientRect().top;
 
-      if (imagezy.getBoundingClientRect().top < setTrigger(threshold) && imagezy.getAttribute('data-src')) {
+      if (imgPosition < setTrigger(threshold) && imagezy.getAttribute('data-src')) {
+
         imagezy.lastElementChild.setAttribute('src', imagezy.getAttribute('data-src'));
         imagezy.removeAttribute('data-src');
-        imagezy.classList.add("fadeOut");
+
+        imagezy.lastElementChild.onload = function() {
+          imagezy.classList.add("fadeOut");
+        }
       }
     });
   });
