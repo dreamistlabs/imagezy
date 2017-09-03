@@ -5,6 +5,16 @@ import { css } from './cssRules';
 
 (function() {
 
+  function wrapImage(image) {
+    var currentParent = image.parentNode;
+    var imagezy = image;
+    var wrapper = document.createElement('div');
+    wrapper.classList.add('imagezy-wrapper');
+
+    currentParent.insertBefore(wrapper, imagezy);
+    wrapper.appendChild(imagezy);
+  }
+
   /*!
    * Create and append a new stylesheet to <head>
    */
@@ -22,15 +32,13 @@ import { css } from './cssRules';
   /*!
    * Collect all imagezy images
    */
-  const imagezys = document.querySelectorAll('.imagezy');
+  const imagezys = document.querySelectorAll('.imagezy-img');
 
   /*!
-   * Create <img> within each imagezy
+   * Wrap each imagezy with a wrapper
    */
   imagezys.forEach((imagezy) => {
-    let img = document.createElement('img');
-    img.className = "imagezy-img";
-    imagezy.appendChild(img);
+    wrapImage(imagezy);
   });
 
 
@@ -41,11 +49,11 @@ import { css } from './cssRules';
 
       if (imgPosition < setTrigger(threshold) && imagezy.getAttribute('data-src')) {
 
-        imagezy.lastElementChild.setAttribute('src', imagezy.getAttribute('data-src'));
+        imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
         imagezy.removeAttribute('data-src');
 
-        imagezy.lastElementChild.onload = function() {
-          imagezy.classList.add("reveal");
+        imagezy.onload = function() {
+          imagezy.parentNode.classList.add("reveal");
         }
       }
     });
