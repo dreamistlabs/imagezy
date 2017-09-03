@@ -1,11 +1,11 @@
 const css = [
-  `div.imagezy {
+  `div.imagezy-wrapper {
     position: relative;
     display: inline-block;
     width: 700px;
     height: 400px;
   }`,
-  `div.imagezy:before {
+  `div.imagezy-wrapper:before {
     content: "";
     position: absolute;
     left: 0;
@@ -21,7 +21,7 @@ const css = [
     transition: opacity .2s, z-index .2s linear .5s;
     z-index: 5;
   }`,
-  `div.imagezy:after {
+  `div.imagezy-wrapper:after {
     content: "";
     position: absolute;
     top: 0;
@@ -33,7 +33,7 @@ const css = [
     opacity: 1;
     transition: all 2s;
   }`,
-  `div.imagezy.white:after {
+  `div.imagezy-wrapper.white:after {
     content: "";
     background-color: white;
   }`,
@@ -41,11 +41,11 @@ const css = [
     height: 100%;
     width: 100%;
   }`,
-  `div.imagezy.reveal:before {
+  `div.imagezy-wrapper.reveal:before {
     opacity: 0;
     z-index: -1;
   }`,
-  `div.imagezy.reveal:after {
+  `div.imagezy-wrapper.reveal:after {
     animation: reveal 0.75s forwards;
   }`,
   `@keyframes reveal {
