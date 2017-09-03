@@ -35,10 +35,14 @@ import { css } from './cssRules';
   const imagezys = document.querySelectorAll('.imagezy-img');
 
   /*!
-   * Wrap each imagezy with a wrapper
+   * Wrap each imagezy with a wrapper and onload trigger function
    */
   imagezys.forEach((imagezy) => {
     wrapImage(imagezy);
+
+    imagezy.onload = () => {
+      imagezy.parentNode.classList.add("reveal");
+    }
   });
 
 
@@ -51,10 +55,6 @@ import { css } from './cssRules';
 
         imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
         imagezy.removeAttribute('data-src');
-
-        imagezy.onload = function() {
-          imagezy.parentNode.classList.add("reveal");
-        }
       }
     });
   });
