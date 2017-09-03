@@ -66,11 +66,16 @@
   }`, sheet.cssRules.length);
 
   sheet.insertRule(
-  `div.imagezy.fadeOut:after {
-    animation: fadeOut 0.75s forwards;
+  `div.imagezy.reveal:after {
+    animation: reveal 0.75s forwards;
   }`, sheet.cssRules.length);
 
-  console.log(sheet.cssRules);
+  sheet.insertRule(
+  `@keyframes reveal {
+    0% { opacity: 1; }
+    15% { opacity: 0.95; }
+    100% { opacity: 0; }
+  }`, sheet.cssRules.length);
 
   /*!
    * Create an SVG with the given width and height
@@ -112,6 +117,7 @@
     // setImageToPlaceholder(img, placeholder);
   });
 
+
   window.addEventListener('scroll', function() {
     imagezys.forEach(function(imagezy) {
       let threshold = formatThreshold(imagezy.getAttribute('data-threshold'));
@@ -123,7 +129,7 @@
         imagezy.removeAttribute('data-src');
 
         imagezy.lastElementChild.onload = function() {
-          imagezy.classList.add("fadeOut");
+          imagezy.classList.add("reveal");
         }
       }
     });
