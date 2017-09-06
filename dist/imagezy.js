@@ -1,113 +1,140 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var css = ["div.imagezy-wrapper {\n    position: relative;\n    display: inline-block;\n    width: 700px;\n    height: 400px;\n  }", "div.imagezy-wrapper:before {\n    content: \"\";\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    background-color: #D8D8D8;\n    background-image: url('../imagezy.svg');\n    background-repeat: no-repeat;\n    background-size: 40%;\n    background-position: center;\n    opacity: 1;\n    transition: opacity .2s, z-index .2s linear .5s;\n    z-index: 5;\n  }", "div.imagezy-wrapper:after {\n    content: \"\";\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: block;\n    width: 100%;\n    height: 100%;\n    background-color: black;\n    opacity: 1;\n    transition: all 2s;\n  }", "div.imagezy-wrapper.white:after {\n    content: \"\";\n    background-color: white;\n  }", "img.imagezy-img {\n    height: 100%;\n    width: 100%;\n  }", "div.imagezy-wrapper.reveal:before {\n    opacity: 0;\n    z-index: -1;\n  }", "div.imagezy-wrapper.reveal:after {\n    animation: reveal 0.75s forwards;\n  }", "@keyframes reveal {\n    0% { opacity: 1; }\n    15% { opacity: 0.95; }\n    100% { opacity: 0; }\n  }"];
+
+exports.css = css;
+},{}],2:[function(require,module,exports){
 'use strict';
 
-var myModule = require('./test');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var createStylesheet = function createStylesheet() {
+  return document.createElement("style");
+};
+
+var appendStylesheetToHead = function appendStylesheetToHead(stylesheet) {
+  document.head.appendChild(stylesheet);
+};
+
+var setTrigger = function setTrigger(threshold) {
+  if (threshold < 1) {
+    return window.innerHeight * (1 - threshold);
+  } else {
+    return window.innerHeight - threshold;
+  }
+};
+
+var formatThreshold = function formatThreshold(threshold) {
+  if (!threshold) {
+    return 0.4;
+  };
+  return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
+};
+
+exports.createStylesheet = createStylesheet;
+exports.appendStylesheetToHead = appendStylesheetToHead;
+exports.setTrigger = setTrigger;
+exports.formatThreshold = formatThreshold;
+},{}],3:[function(require,module,exports){
+'use strict';
+
+var _functions = require('./functions');
+
+var _cssRules = require('./cssRules');
 
 (function () {
-  var hi = myModule.hello();
-  console.log(hi);
+  /*!
+   * Collect all imagezy images
+   */
+  var imagezys = document.querySelectorAll('.imagezy-img');
+  var imagezyCount = imagezys.length;
+  var didScroll = false;
+
+  function wrapImage(image) {
+    var currentParent = image.parentNode;
+    var imagezy = image;
+    var wrapper = document.createElement('div');
+    wrapper.classList.add('imagezy-wrapper');
+
+    currentParent.insertBefore(wrapper, imagezy);
+    wrapper.appendChild(imagezy);
+  }
 
   /*!
-   * Set an image's src attribute to an SVG
+   * Checks if the user has scrolled the page. If so, runs checkImagezys.
+   * Also checks if there are any imagezys left to reveal. If not, clears interval.
    */
-  var setImageToPlaceholder = function setImageToPlaceholder(image, svg) {
-    var xml = new XMLSerializer().serializeToString(svg);
-    image.src = "data:image/svg+xml;charset=utf-8," + xml;
-  };
+  var checkScroll = setInterval(function () {
+    if (didScroll) {
+      didScroll = false;
+      checkImagezys(imagezys);
 
-  var setTrigger = function setTrigger(threshold) {
-    if (threshold < 1) {
-      return window.innerHeight * (1 - threshold);
-    } else {
-      return window.innerHeight - threshold;
+      if (imagezyCount === 0) {
+        clearInterval(checkScroll);
+      }
     }
-  };
-
-  var formatThreshold = function formatThreshold(threshold) {
-    if (!threshold) {
-      return 0;
-    };
-    return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
-  };
-
-  var createStylesheet = function createStylesheet() {
-    return document.createElement("style");
-  };
-
-  var appendToHead = function appendToHead(stylesheet) {
-    document.head.appendChild(stylesheet);
-  };
+  }, 100);
 
   /*!
    * Create and append a new stylesheet to <head>
    */
-  var style = createStylesheet();
-  appendToHead(style);
+  var style = (0, _functions.createStylesheet)();
+  (0, _functions.appendStylesheetToHead)(style);
+
+  /*!
+   * Inject CSS
+   */
   var sheet = style.sheet;
-  sheet.insertRule('div.imagezy {\n    position: relative;\n    display: inline-block;\n    width: 700px;\n    height: 400px;\n  }', sheet.cssRules.length);
-
-  sheet.insertRule('div.imagezy:before {\n    background-image: url(\'../imagezy.svg\');\n  }', sheet.cssRules.length);
-
-  sheet.insertRule('div.imagezy:after {\n    content: "";\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: block;\n    width: 100%;\n    height: 100%;\n    background-color: black;\n    opacity: 1;\n    transition: all 2s;\n  }', sheet.cssRules.length);
-
-  sheet.insertRule('div.imagezy.white:after {\n    content: "";\n    background-color: white;\n  }', sheet.cssRules.length);
-
-  sheet.insertRule('img.imagezy-img {\n    height: 100%;\n    width: 100%;\n  }', sheet.cssRules.length);
-
-  sheet.insertRule('div.imagezy.reveal:before {\n    opacity: 0;\n    z-index: -1;\n  }', sheet.cssRules.length);
-
-  sheet.insertRule('div.imagezy.reveal:after {\n    animation: reveal 0.75s forwards;\n  }', sheet.cssRules.length);
-
-  sheet.insertRule('@keyframes reveal {\n    0% { opacity: 1; }\n    15% { opacity: 0.95; }\n    100% { opacity: 0; }\n  }', sheet.cssRules.length);
-
-  var test = '\n    <?xml version="1.0" encoding="UTF-8"?>\n    <svg width="229px" height="55px" viewBox="0 0 229 55" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n            <g id="imagezy-logo-copy" transform="translate(-1.000000, -12.000000)" fill="#F5A623">\n                <path d="M1.92,27.776 L5.696,27.776 L15.808,26.24 L15.808,52.736 L19.584,52.736 L19.584,56 L1.92,56 L1.92,52.736 L5.696,52.736 L5.696,30.976 L1.92,30.976 L1.92,27.776 Z M5.696,17.792 C5.696,15.999991 6.07999616,14.666671 6.848,13.792 C7.61600384,12.917329 8.91732416,12.48 10.752,12.48 C12.6720096,12.48 13.994663,12.917329 14.72,13.792 C15.445337,14.666671 15.808,15.999991 15.808,17.792 C15.808,19.6266758 15.4133373,20.9599958 14.624,21.792 C13.8346627,22.6240042 12.544009,23.04 10.752,23.04 C8.91732416,23.04 7.61600384,22.6240042 6.848,21.792 C6.07999616,20.9599958 5.696,19.6266758 5.696,17.792 Z M21.284,28.416 L25.06,28.416 L34.724,26.56 L34.724,30.848 C34.8946675,30.5919987 35.2039978,30.2293357 35.652,29.76 C36.1000022,29.2906643 36.686663,28.8426688 37.412,28.416 C38.137337,27.9893312 39.0226614,27.6160016 40.068,27.296 C41.1133386,26.9759984 42.339993,26.816 43.748,26.816 C44.5586707,26.816 45.3906624,26.8799994 46.244,27.008 C47.0973376,27.1360006 47.8973296,27.3493318 48.644,27.648 C49.3906704,27.9466682 50.0626637,28.3519974 50.66,28.864 C51.2573363,29.3760026 51.6839987,30.0373293 51.94,30.848 C52.0680006,30.6773325 52.3239981,30.3680022 52.708,29.92 C53.0920019,29.4719978 53.6359965,29.0133357 54.34,28.544 C55.0440035,28.0746643 55.929328,27.669335 56.996,27.328 C58.062672,26.986665 59.3426592,26.816 60.836,26.816 C61.8173382,26.816 62.8093283,26.9013325 63.812,27.072 C64.8146717,27.2426675 65.7319958,27.5519978 66.564,28 C67.3960042,28.4480022 68.0679974,29.0559962 68.58,29.824 C69.0920026,30.5920038 69.348,31.5946605 69.348,32.832 L69.348,52.736 L73.124,52.736 L73.124,56 L59.236,56 L59.236,30.784 L59.044,30.72 C58.9586662,30.6773331 58.8306675,30.6453334 58.66,30.624 C58.4893325,30.6026666 58.233335,30.592 57.892,30.592 C57.166663,30.592 56.4946698,30.7839981 55.876,31.168 C55.2573302,31.5520019 54.7026691,31.9893309 54.212,32.48 C53.7213309,32.9706691 53.305335,33.4613309 52.964,33.952 C52.622665,34.4426691 52.3880006,34.7946656 52.26,35.008 L52.26,52.736 L56.036,52.736 L56.036,56 L42.148,56 L42.148,30.784 L41.956,30.72 C41.8706662,30.6773331 41.7426675,30.6453334 41.572,30.624 C41.4013325,30.6026666 41.145335,30.592 40.804,30.592 C40.078663,30.592 39.4066698,30.7839981 38.788,31.168 C38.1693302,31.5520019 37.6146691,31.9893309 37.124,32.48 C36.6333309,32.9706691 36.217335,33.4613309 35.876,33.952 C35.534665,34.4426691 35.3000006,34.7946656 35.172,35.008 L35.172,52.736 L38.948,52.736 L38.948,56 L21.284,56 L21.284,52.736 L25.06,52.736 L25.06,31.616 L21.284,31.616 L21.284,28.416 Z M101.256,52.8 L102.088,52.8 C102.472002,52.8 102.855998,52.7786669 103.24,52.736 L104.648,52.608 L104.648,55.68 C103.879996,55.8080006 103.133337,55.9146662 102.408,56 C101.810664,56.0853338 101.17067,56.1493331 100.488,56.192 C99.8053299,56.2346669 99.2506688,56.256 98.824,56.256 C96.7333229,56.256 95.154672,55.8720038 94.088,55.104 C93.021328,54.3359962 92.2533357,53.5040045 91.784,52.608 C90.8453286,53.8026726 89.7680061,54.7519965 88.552,55.456 C87.3359939,56.1600035 85.9386746,56.512 84.36,56.512 C81.4586522,56.512 79.304007,55.9680054 77.896,54.88 C76.487993,53.7919946 75.784,51.9040134 75.784,49.216 C75.784,48.2773286 75.7946666,47.3813376 75.816,46.528 C75.8373334,45.6746624 75.8906662,44.9280032 75.976,44.288 C76.0613338,43.5199962 76.1466662,42.8373363 76.232,42.24 L91.08,38.592 C91.0373331,37.3546605 90.9946669,36.2133386 90.952,35.168 C90.9093331,34.1226614 90.8666669,33.237337 90.824,32.512 C90.7386662,31.6586624 90.6746669,30.8906701 90.632,30.208 C90.5039994,30.1653331 90.3120013,30.1226669 90.056,30.08 C89.8426656,30.0373331 89.5226688,29.9946669 89.096,29.952 C88.6693312,29.9093331 88.1573363,29.888 87.56,29.888 C87.1759981,29.888 86.813335,29.8986666 86.472,29.92 C86.130665,29.9413334 85.789335,29.9733331 85.448,30.016 C85.3199994,30.6133363 85.1066682,31.3279958 84.808,32.16 C84.5093318,32.9920042 84.0400032,33.7813296 83.4,34.528 C82.7599968,35.2746704 81.9173386,35.914664 80.872,36.448 C79.8266614,36.981336 78.4933414,37.248 76.872,37.248 L76.872,27.584 C78.2373402,27.4559994 79.623993,27.3280006 81.032,27.2 C82.2693395,27.1146662 83.591993,27.0293338 85,26.944 C86.408007,26.8586662 87.7733267,26.816 89.096,26.816 C91.8693472,26.816 94.055992,27.0506643 95.656,27.52 C97.256008,27.9893357 98.4719958,28.7999942 99.304,29.952 C100.136004,31.1040058 100.669332,32.6399904 100.904,34.56 C101.138668,36.4800096 101.256,38.869319 101.256,41.728 L101.256,52.8 Z M86.408,53.056 C87.2613376,52.8426656 88.0826627,52.298671 88.872,51.424 C89.6613373,50.549329 90.418663,49.4933395 91.144,48.256 L91.144,41.472 L86.28,42.816 C86.1946662,43.4986701 86.1306669,44.1919965 86.088,44.896 C86.0453331,45.6000035 86.024,46.2933299 86.024,46.976 C86.024,47.8293376 86.0346666,48.618663 86.056,49.344 C86.0773334,50.069337 86.1306662,50.7093306 86.216,51.264 C86.2586669,51.9040032 86.3226662,52.5013306 86.408,53.056 Z M128.236,63.296 L130.796,63.296 C132.204007,63.296 133.089332,63.1573347 133.452,62.88 C133.814668,62.6026653 133.996,62.1226701 133.996,61.44 L133.996,60.48 L117.548,60.48 C115.49999,60.48 113.772007,60.3200016 112.364,60 C110.955993,59.6799984 109.836004,59.1893366 109.004,58.528 C108.171996,57.8666634 107.574668,57.0133386 107.212,55.968 C106.849332,54.9226614 106.668,53.6746739 106.668,52.224 C106.668,51.1146611 106.817332,50.1546707 107.116,49.344 C107.414668,48.5333293 107.787998,47.8506694 108.236,47.296 C108.684002,46.7413306 109.174664,46.293335 109.708,45.952 C110.241336,45.610665 110.742664,45.3546675 111.212,45.184 C109.84666,44.4159962 108.876003,43.3600067 108.3,42.016 C107.723997,40.6719933 107.436,38.9760102 107.436,36.928 C107.436,35.0933242 107.681331,33.5253398 108.172,32.224 C108.662669,30.9226602 109.462661,29.8773373 110.572,29.088 C111.681339,28.2986627 113.131991,27.7226685 114.924,27.36 C116.716009,26.9973315 118.91332,26.816 121.516,26.816 L129.196,26.816 C130.262672,26.816 131.10533,26.7306675 131.724,26.56 C132.34267,26.3893325 132.801332,26.1226685 133.1,25.76 C133.398668,25.3973315 133.58,24.949336 133.644,24.416 C133.708,23.882664 133.74,23.2320038 133.74,22.464 L137.196,22.464 C137.196,24.7680115 136.833337,26.4319949 136.108,27.456 C135.382663,28.4800051 134.33734,29.1839981 132.972,29.568 C134.721342,31.1466746 135.596,33.5999834 135.596,36.928 C135.596,38.8053427 135.350669,40.3839936 134.86,41.664 C134.369331,42.9440064 133.569339,43.9786627 132.46,44.768 C131.350661,45.5573373 129.900009,46.1333315 128.108,46.496 C126.315991,46.8586685 124.11868,47.04 121.516,47.04 C118.742653,47.04 116.438676,46.8480019 114.604,46.464 C114.091997,46.5920006 113.569336,46.7733322 113.036,47.008 C112.502664,47.2426678 112.001336,47.5413315 111.532,47.904 C111.062664,48.2666685 110.678668,48.6826643 110.38,49.152 C110.081332,49.6213357 109.932,50.1546637 109.932,50.752 L128.492,50.752 C132.033351,50.752 134.539993,51.4026602 136.012,52.704 C137.484007,54.0053398 138.22,56.0213197 138.22,58.752 C138.22,60.1173402 138.113334,61.2906618 137.9,62.272 C137.686666,63.2533382 137.313336,64.0639968 136.78,64.704 C136.246664,65.3440032 135.489338,65.8239984 134.508,66.144 C133.526662,66.4640016 132.268008,66.624 130.732,66.624 L128.236,66.624 L128.236,63.296 Z M117.932,36.928 C117.932,37.9520051 117.974666,38.8906624 118.06,39.744 C118.145334,40.5973376 118.251999,41.3226637 118.38,41.92 C118.508001,42.645337 118.657332,43.3066637 118.828,43.904 C119.041334,43.9466669 119.275999,43.9893331 119.532,44.032 C119.745334,44.0746669 120.011998,44.1066666 120.332,44.128 C120.652002,44.1493334 121.025331,44.16 121.452,44.16 C121.878669,44.16 122.262665,44.1493334 122.604,44.128 C122.945335,44.1066666 123.222666,44.0746669 123.436,44.032 C123.692001,43.9893331 123.926666,43.9466669 124.14,43.904 C124.268001,43.3066637 124.417332,42.645337 124.588,41.92 C124.673334,41.3226637 124.769333,40.5973376 124.876,39.744 C124.982667,38.8906624 125.036,37.9520051 125.036,36.928 C125.036,35.9466618 124.982667,35.018671 124.876,34.144 C124.769333,33.269329 124.673334,32.5333363 124.588,31.936 C124.417332,31.210663 124.268001,30.5493363 124.14,29.952 L123.372,29.824 C123.158666,29.7813331 122.881335,29.7493334 122.54,29.728 C122.198665,29.7066666 121.836002,29.696 121.452,29.696 C121.025331,29.696 120.652002,29.7066666 120.332,29.728 C120.011998,29.7493334 119.745334,29.7813331 119.532,29.824 C119.275999,29.8666669 119.041334,29.9093331 118.828,29.952 C118.657332,30.5493363 118.508001,31.210663 118.38,31.936 C118.251999,32.5333363 118.145334,33.269329 118.06,34.144 C117.974666,35.018671 117.932,35.9466618 117.932,36.928 Z M153.808,26.816 C156.154678,26.816 158.095992,27.0399978 159.632,27.488 C161.168008,27.9360022 162.405329,28.6506618 163.344,29.632 C164.282671,30.6133382 164.943998,31.903992 165.328,33.504 C165.712002,35.104008 165.904,37.0773216 165.904,39.424 C165.904,40.149337 165.882667,40.778664 165.84,41.312 C165.797333,41.845336 165.754667,42.282665 165.712,42.624 C165.669333,43.0506688 165.626667,43.3706656 165.584,43.584 L149.776,43.584 C149.818667,45.0346739 149.903999,46.3466608 150.032,47.52 C150.160001,48.6933392 150.287999,49.7066624 150.416,50.56 C150.586668,51.5840051 150.757332,52.4799962 150.928,53.248 C151.056001,53.3333338 151.247999,53.3973331 151.504,53.44 C151.717334,53.4826669 152.026665,53.5146666 152.432,53.536 C152.837335,53.5573334 153.359997,53.568 154,53.568 C155.066672,53.568 156.079995,53.4933341 157.04,53.344 C158.000005,53.1946659 158.842663,52.949335 159.568,52.608 C160.293337,52.266665 160.858665,51.7866698 161.264,51.168 C161.669335,50.5493302 161.872,49.7920045 161.872,48.896 L165.328,48.896 C165.328,50.688009 164.933337,52.0959949 164.144,53.12 C163.354663,54.1440051 162.373339,54.922664 161.2,55.456 C160.026661,55.989336 158.75734,56.3199994 157.392,56.448 C156.02666,56.5760006 154.746673,56.64 153.552,56.64 C150.94932,56.64 148.741342,56.373336 146.928,55.84 C145.114658,55.306664 143.642672,54.4533392 142.512,53.28 C141.381328,52.1066608 140.560003,50.5706762 140.048,48.672 C139.535997,46.7733238 139.28,44.4586803 139.28,41.728 C139.28,38.9973197 139.503998,36.6826762 139.952,34.784 C140.400002,32.8853238 141.178661,31.3493392 142.288,30.176 C143.397339,29.0026608 144.879991,28.149336 146.736,27.616 C148.592009,27.082664 150.949319,26.816 153.808,26.816 Z M150.928,30.08 C150.714666,31.0186714 150.522668,32.0426611 150.352,33.152 C150.223999,34.1333382 150.096001,35.2746602 149.968,36.576 C149.839999,37.8773398 149.776,39.2959923 149.776,40.832 L155.984,40.832 C155.898666,39.039991 155.792001,37.4720067 155.664,36.128 C155.535999,34.7839933 155.386668,33.6640045 155.216,32.768 C155.045332,31.701328 154.853334,30.805337 154.64,30.08 C154.511999,30.0373331 154.362668,29.9733338 154.192,29.888 C154.021332,29.8453331 153.818668,29.8026669 153.584,29.76 C153.349332,29.7173331 153.082668,29.696 152.784,29.696 C152.485332,29.696 152.229334,29.7173331 152.016,29.76 C151.802666,29.8026669 151.610668,29.8453331 151.44,29.888 C151.269332,29.9733338 151.098668,30.0373331 150.928,30.08 Z M193.908,28.48 L180.788,52.928 L185.524,52.928 C185.737334,52.2453299 186.046665,51.4560045 186.452,50.56 C186.857335,49.6639955 187.411996,48.8213373 188.116,48.032 C188.820004,47.2426627 189.705328,46.5706694 190.772,46.016 C191.838672,45.4613306 193.139992,45.184 194.676,45.184 L194.676,56 L168.884,56 L168.884,54.848 L182.516,30.336 L177.268,30.336 C177.139999,30.9760032 176.916002,31.6906627 176.596,32.48 C176.275998,33.2693373 175.80667,34.0159965 175.188,34.72 C174.56933,35.4240035 173.758672,36.0106643 172.756,36.48 C171.753328,36.9493357 170.484008,37.184 168.948,37.184 L168.948,27.264 L193.908,27.264 L193.908,28.48 Z M194.136,27.264 L207.512,27.264 L214.872,45.888 L221.528,30.528 L216.408,30.528 L216.408,27.264 L229.72,27.264 L229.72,30.528 L225.24,30.528 L212.44,60.48 C212.055998,61.4186714 211.640002,62.2613296 211.192,63.008 C210.743998,63.7546704 210.232003,64.394664 209.656,64.928 C209.079997,65.461336 208.397337,65.8666653 207.608,66.144 C206.818663,66.4213347 205.869339,66.56 204.76,66.56 C203.565327,66.56 202.616004,66.3573354 201.912,65.952 C201.207996,65.5466646 200.664002,65.0560029 200.28,64.48 C199.895998,63.9039971 199.650667,63.3066698 199.544,62.688 C199.437333,62.0693302 199.384,61.5253357 199.384,61.056 L199.384,59.136 L202.776,59.136 L202.776,61.12 C202.776,61.6320026 202.914665,62.1226643 203.192,62.592 C203.469335,63.0613357 203.991996,63.296 204.76,63.296 C205.912006,63.296 206.79733,62.8906707 207.416,62.08 C208.03467,61.2693293 208.578664,60.3093389 209.048,59.2 L209.752,57.536 L197.336,30.528 L194.136,30.528 L194.136,27.264 Z" id="imagezy"></path>\n            </g>\n        </g>\n    </svg>\n  ';
+  _cssRules.css.forEach(function (rule) {
+    sheet.insertRule(rule, sheet.cssRules.length);
+  });
 
   /*!
-   * Create an SVG with the given width and height
-   */
-  var createPlaceholder = function createPlaceholder(width, height) {
-    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    var svgNS = svg.namespaceURI;
-    var shape = document.createElementNS(svgNS, "rect");
-
-    svg.setAttribute('width', width);
-    svg.setAttribute('height', height);
-    shape.setAttributeNS(null, "width", width);
-    shape.setAttributeNS(null, "height", height);
-    shape.setAttributeNS(null, "x", 0);
-    shape.setAttributeNS(null, "y", 0);
-    shape.setAttributeNS(null, "fill", "rgba(200, 200, 200, 0.8");
-    svg.appendChild(shape);
-    return svg;
-  };
-
-  /*!
-   * Collect all images to be lazy loaded.
-   */
-  var imagezys = document.querySelectorAll('.imagezy');
-
-  /*!
-   * Load each lazy image with an initial placeholder
+   * Wrap each imagezy with a wrapper and onload trigger function
    */
   imagezys.forEach(function (imagezy) {
-    var img = document.createElement('img');
-    img.className = "imagezy-img";
-    imagezy.appendChild(img);
+    wrapImage(imagezy);
+    imagezy.onload = function () {
+      imagezy.parentNode.classList.add('reveal');
+    };
   });
 
-  window.addEventListener('scroll', function () {
+  /*!
+   * Sets didScroll=true, if it isn't already.
+   */
+  function userScrolled() {
+    if (didScroll !== true) {
+      didScroll = true;
+    }
+  }
+
+  /*!
+   * Event listener that sets didScroll=true when the user scrolls the page.
+   */
+  window.addEventListener('scroll', userScrolled);
+
+  /*!
+   * Checks position of each imagezy and sets its src attribute if its position
+   * is within the threshold of the viewport. It also reduces the imagezyCount
+   * each time an src attribute is set, which is then used to trigger clearInterval
+   * when the count reaches zero.
+   */
+  function checkImagezys(imagezys) {
     imagezys.forEach(function (imagezy) {
-      var threshold = formatThreshold(imagezy.getAttribute('data-threshold'));
+      var threshold = (0, _functions.formatThreshold)(imagezy.getAttribute('data-threshold'));
       var imgPosition = imagezy.getBoundingClientRect().top;
 
-      if (imgPosition < 500 && imagezy.getAttribute('data-src')) {
-
-        imagezy.lastElementChild.setAttribute('src', imagezy.getAttribute('data-src'));
+      if (imgPosition < (0, _functions.setTrigger)(threshold) && imagezy.getAttribute('data-src')) {
+        imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
         imagezy.removeAttribute('data-src');
-
-        imagezy.lastElementChild.onload = function () {
-          imagezy.classList.add("reveal");
-        };
+        imagezyCount--;
       }
     });
-  });
+  }
 })();
+},{"./cssRules":1,"./functions":2}]},{},[3]);
