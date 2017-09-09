@@ -1,9 +1,12 @@
 section {
   margin: 0 auto;
-  padding: 10rem 2rem;
+  padding: 8rem 2rem;
   max-width: 1200px;
 }
-
+.section__heading,
+.section__container {
+  margin: 1rem;
+}
 .jumbotron {
   display: flex;
   flex-direction: column;
@@ -20,18 +23,20 @@ section {
   max-width: 400px;
 }
 
-.highlights {
+section#highlights .section__container {
   display: flex;
+  justify-content: space-between;
+}
+section#getting-started {
+  background-color: gray;
 }
 
 .feature-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 1rem;
-  margin-right: 1rem;
   padding: 3rem 2rem;
-  width: 30%;
+  width: 25%;
   background-color: pink;
 }
 
