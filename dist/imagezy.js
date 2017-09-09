@@ -10,44 +10,16 @@ exports.css = css;
 },{}],2:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var createStylesheet = function createStylesheet() {
-  return document.createElement("style");
-};
-
-var appendStylesheetToHead = function appendStylesheetToHead(stylesheet) {
-  document.head.appendChild(stylesheet);
-};
-
-var setTrigger = function setTrigger(threshold) {
-  if (threshold < 1) {
-    return window.innerHeight * (1 - threshold);
-  } else {
-    return window.innerHeight - threshold;
-  }
-};
-
-var formatThreshold = function formatThreshold(threshold) {
-  if (!threshold) {
-    return 0.4;
-  };
-  return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
-};
-
-exports.createStylesheet = createStylesheet;
-exports.appendStylesheetToHead = appendStylesheetToHead;
-exports.setTrigger = setTrigger;
-exports.formatThreshold = formatThreshold;
-},{}],3:[function(require,module,exports){
-'use strict';
-
-var _functions = require('./functions');
-
 var _cssRules = require('./cssRules');
 
-(function () {
+var initializeImagezy = function initializeImagezy() {
+  /*!
+   * Create and append a new stylesheet to <head>
+   */
+  var style = document.createElement("style");
+  document.head.appendChild(style);
+  var sheet = style.sheet;
+
   /*!
    * Collect all imagezy images
    */
@@ -55,7 +27,42 @@ var _cssRules = require('./cssRules');
   var imagezyCount = imagezys.length;
   var didScroll = false;
 
-  function wrapImage(image) {
+  /*!
+   * Inject Imagezy CSS
+   */
+  _cssRules.css.forEach(function (rule) {
+    sheet.insertRule(rule, sheet.cssRules.length);
+  });
+
+  /*!
+   * FUNCTIONS
+   */
+
+  var setTrigger = function setTrigger(threshold) {
+    if (threshold < 1) {
+      return window.innerHeight * (1 - threshold);
+    } else {
+      return window.innerHeight - threshold;
+    }
+  };
+
+  var formatThreshold = function formatThreshold(threshold) {
+    if (!threshold) {
+      return 0.4;
+    };
+    return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
+  };
+
+  /*!
+   * Sets didScroll=true, if it isn't already.
+   */
+  var userScrolled = function userScrolled() {
+    if (didScroll !== true) {
+      didScroll = true;
+    }
+  };
+
+  var wrapImage = function wrapImage(image) {
     var currentParent = image.parentNode;
     var imagezy = image;
     var wrapper = document.createElement('div');
@@ -63,7 +70,26 @@ var _cssRules = require('./cssRules');
 
     currentParent.insertBefore(wrapper, imagezy);
     wrapper.appendChild(imagezy);
-  }
+  };
+
+  /*!
+   * Checks position of each imagezy and sets its src attribute if its position
+   * is within the threshold of the viewport. It also reduces the imagezyCount
+   * each time an src attribute is set, which is then used to trigger clearInterval
+   * when the count reaches zero.
+   */
+  var checkImagezys = function checkImagezys(imagezys) {
+    imagezys.forEach(function (imagezy) {
+      var threshold = formatThreshold(imagezy.getAttribute('data-threshold'));
+      var imgPosition = imagezy.getBoundingClientRect().top;
+
+      if (imgPosition < setTrigger(threshold) && imagezy.getAttribute('data-src')) {
+        imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
+        imagezy.removeAttribute('data-src');
+        imagezyCount--;
+      }
+    });
+  };
 
   /*!
    * Checks if the user has scrolled the page. If so, runs checkImagezys.
@@ -81,20 +107,6 @@ var _cssRules = require('./cssRules');
   }, 100);
 
   /*!
-   * Create and append a new stylesheet to <head>
-   */
-  var style = (0, _functions.createStylesheet)();
-  (0, _functions.appendStylesheetToHead)(style);
-
-  /*!
-   * Inject CSS
-   */
-  var sheet = style.sheet;
-  _cssRules.css.forEach(function (rule) {
-    sheet.insertRule(rule, sheet.cssRules.length);
-  });
-
-  /*!
    * Wrap each imagezy with a wrapper and onload trigger function
    */
   imagezys.forEach(function (imagezy) {
@@ -105,36 +117,12 @@ var _cssRules = require('./cssRules');
   });
 
   /*!
-   * Sets didScroll=true, if it isn't already.
-   */
-  function userScrolled() {
-    if (didScroll !== true) {
-      didScroll = true;
-    }
-  }
-
-  /*!
    * Event listener that sets didScroll=true when the user scrolls the page.
    */
   window.addEventListener('scroll', userScrolled);
+};
 
-  /*!
-   * Checks position of each imagezy and sets its src attribute if its position
-   * is within the threshold of the viewport. It also reduces the imagezyCount
-   * each time an src attribute is set, which is then used to trigger clearInterval
-   * when the count reaches zero.
-   */
-  function checkImagezys(imagezys) {
-    imagezys.forEach(function (imagezy) {
-      var threshold = (0, _functions.formatThreshold)(imagezy.getAttribute('data-threshold'));
-      var imgPosition = imagezy.getBoundingClientRect().top;
-
-      if (imgPosition < (0, _functions.setTrigger)(threshold) && imagezy.getAttribute('data-src')) {
-        imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
-        imagezy.removeAttribute('data-src');
-        imagezyCount--;
-      }
-    });
-  }
-})();
-},{"./cssRules":1,"./functions":2}]},{},[3]);
+window.onload = function () {
+  initializeImagezy();
+};
+},{"./cssRules":1}]},{},[2]);
