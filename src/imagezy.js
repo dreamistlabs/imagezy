@@ -1,7 +1,7 @@
 'use strict';
 
-import { css } from './cssRules';
-import { loadConfigurations, setTrigger, formatThreshold, wrapImage } from './functions';
+import { css } from './lib/cssRules';
+import { loadConfigurations, setTrigger, formatThreshold, wrapImage } from './lib/functions';
 
 const initializeImagezy = () => {
   /*!
