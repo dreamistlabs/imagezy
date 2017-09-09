@@ -31,9 +31,8 @@ const initializeImagezy = () => {
   });
 
   sheet.insertRule(
-  `div.imagezy-wrapper:after {
-    background-color: ${opts.fadeColor}
-  }`, sheet.cssRules.length);
+  `div.imagezy-wrapper:after {background-color: ${opts.fadeColor}}`
+  , sheet.cssRules.length);
 
   /*!
    * Checks the value of didScroll. If it's false, sets it to true.

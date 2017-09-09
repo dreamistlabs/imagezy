@@ -32,7 +32,7 @@ var initializeImagezy = function initializeImagezy() {
     sheet.insertRule(rule, sheet.cssRules.length);
   });
 
-  sheet.insertRule('div.imagezy-wrapper:after {\n    background-color: ' + opts.fadeColor + '\n  }', sheet.cssRules.length);
+  sheet.insertRule('div.imagezy-wrapper:after {background-color: ' + opts.fadeColor + '}', sheet.cssRules.length);
 
   /*!
    * Checks the value of didScroll. If it's false, sets it to true.
@@ -102,7 +102,7 @@ window.onload = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var css = ["div.imagezy-wrapper {\n    position: relative;\n    display: inline-block;\n    width: 700px;\n    height: 400px;\n  }", "div.imagezy-wrapper:before {\n    content: \"\";\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    background-color: #D8D8D8;\n    background-image: url('../imagezy.svg');\n    background-repeat: no-repeat;\n    background-size: 40%;\n    background-position: center;\n    opacity: 1;\n    transition: opacity .2s, z-index .2s linear .5s;\n    z-index: 5;\n  }", "div.imagezy-wrapper:after {\n    content: \"\";\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: block;\n    width: 100%;\n    height: 100%;\n    background-color: black;\n    opacity: 1;\n    transition: all 2s;\n  }", "img.imagezy-img {\n    height: 100%;\n    width: 100%;\n  }", "div.imagezy-wrapper.reveal:before {\n    opacity: 0;\n    z-index: -1;\n  }", "div.imagezy-wrapper.reveal:after {\n    animation: reveal 0.75s forwards;\n  }", "@keyframes reveal {\n    0% { opacity: 1; }\n    15% { opacity: 0.95; }\n    100% { opacity: 0; }\n  }"];
+var css = ["div.imagezy-wrapper {\n  position: relative;\n  display: inline-block;\n  width: 700px;\n  height: 400px;\n}", "div.imagezy-wrapper:before {\n  content: \"\";\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #D8D8D8;\n  background-image: url('../imagezy.svg');\n  background-repeat: no-repeat;\n  background-size: 40%;\n  background-position: center;\n  opacity: 1;\n  transition: opacity .2s, z-index .2s linear .5s;\n  z-index: 5;\n}", "div.imagezy-wrapper:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: block;\n  width: 100%;\n  height: 100%;\n  background-color: black;\n  opacity: 1;\n  transition: all 2s;\n}", "img.imagezy-img {\n  height: 100%;\n  width: 100%;\n}", "div.imagezy-wrapper.reveal:before {\n  opacity: 0;\n  z-index: -1;\n}", "div.imagezy-wrapper.reveal:after {\n  animation: reveal 0.75s forwards;\n}", "@keyframes reveal {\n  0% { opacity: 1; }\n  15% { opacity: 0.95; }\n  100% { opacity: 0; }\n}"];
 
 exports.css = css;
 },{}],3:[function(require,module,exports){
