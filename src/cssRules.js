@@ -33,10 +33,6 @@ const css = [
     opacity: 1;
     transition: all 2s;
   }`,
-  `div.imagezy-wrapper.white:after {
-    content: "";
-    background-color: white;
-  }`,
   `img.imagezy-img {
     height: 100%;
     width: 100%;

@@ -3,10 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Imagezy | Load Your Images Lazily</title>
-  <!-- <script src="../dist/imagezy.js"></script> -->
+  <script>
+    var imagezyConfig = {
+      fadeColor: "black",
+      threshold: 0.5
+    };
+  </script>
 </head>
 <body>
-  <script src="../dist/imagezy.js"></script>
 
   <img class="imagezy-img" data-src="https://cdn.pixabay.com/photo/2013/08/28/00/54/landscape-176602_960_720.jpg" />
 
@@ -22,6 +26,6 @@
 
   <img class="imagezy-img" data-src="http://eskipaper.com/images/pretty-landscape-sunset-1.jpg" />
 
-<!-- <script src="../dist/imagezy.js"></script> -->
+<script src="../dist/imagezy.js"></script>
 </body>
 </html>

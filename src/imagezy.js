@@ -1,8 +1,14 @@
 'use strict';
 
 import { css } from './cssRules';
+import { loadConfigurations, setTrigger, formatThreshold, wrapImage } from './functions';
 
 const initializeImagezy = () => {
+  /*!
+   * Load configurations
+   */
+  let opts = loadConfigurations(imagezyConfig);
+
   /*!
    * Create and append a new stylesheet to <head>
    */
@@ -24,38 +30,16 @@ const initializeImagezy = () => {
     sheet.insertRule(rule, sheet.cssRules.length);
   });
 
-  /*!
-   * FUNCTIONS
-   */
-
-  const setTrigger = (threshold) => {
-    if (threshold < 1) {
-      return window.innerHeight * (1 - threshold);
-    } else {
-      return window.innerHeight - threshold;
-    }
-  }
-
-  const formatThreshold = (threshold) => {
-    if (!threshold) { return 0.4 };
-    return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
-  }
+  sheet.insertRule(
+  `div.imagezy-wrapper:after {
+    background-color: ${opts.fadeColor}
+  }`, sheet.cssRules.length);
 
   /*!
-   * Sets didScroll=true, if it isn't already.
+   * Checks the value of didScroll. If it's false, sets it to true.
    */
-  const userScrolled = () => {
+  const captureScroll = () => {
     if (didScroll !== true) { didScroll = true; }
-  }
-
-  const wrapImage = (image) => {
-    let currentParent = image.parentNode;
-    let imagezy = image;
-    let wrapper = document.createElement('div');
-    wrapper.classList.add('imagezy-wrapper');
-
-    currentParent.insertBefore(wrapper, imagezy);
-    wrapper.appendChild(imagezy);
   }
 
   /*!
@@ -66,7 +50,7 @@ const initializeImagezy = () => {
    */
   const checkImagezys = (imagezys) => {
     imagezys.forEach(function(imagezy) {
-      let threshold = formatThreshold(imagezy.getAttribute('data-threshold'));
+      let threshold = formatThreshold(opts.threshold.toString());
       let imgPosition = imagezy.getBoundingClientRect().top;
 
       if (imgPosition < setTrigger(threshold) && imagezy.getAttribute('data-src')) {
@@ -101,7 +85,7 @@ const initializeImagezy = () => {
   /*!
    * Event listener that sets didScroll=true when the user scrolls the page.
    */
-  window.addEventListener('scroll', userScrolled);
+  window.addEventListener('scroll', captureScroll);
 
 };
 

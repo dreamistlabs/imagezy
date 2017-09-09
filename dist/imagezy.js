@@ -4,15 +4,82 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var css = ["div.imagezy-wrapper {\n    position: relative;\n    display: inline-block;\n    width: 700px;\n    height: 400px;\n  }", "div.imagezy-wrapper:before {\n    content: \"\";\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    background-color: #D8D8D8;\n    background-image: url('../imagezy.svg');\n    background-repeat: no-repeat;\n    background-size: 40%;\n    background-position: center;\n    opacity: 1;\n    transition: opacity .2s, z-index .2s linear .5s;\n    z-index: 5;\n  }", "div.imagezy-wrapper:after {\n    content: \"\";\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: block;\n    width: 100%;\n    height: 100%;\n    background-color: black;\n    opacity: 1;\n    transition: all 2s;\n  }", "div.imagezy-wrapper.white:after {\n    content: \"\";\n    background-color: white;\n  }", "img.imagezy-img {\n    height: 100%;\n    width: 100%;\n  }", "div.imagezy-wrapper.reveal:before {\n    opacity: 0;\n    z-index: -1;\n  }", "div.imagezy-wrapper.reveal:after {\n    animation: reveal 0.75s forwards;\n  }", "@keyframes reveal {\n    0% { opacity: 1; }\n    15% { opacity: 0.95; }\n    100% { opacity: 0; }\n  }"];
+var css = ["div.imagezy-wrapper {\n    position: relative;\n    display: inline-block;\n    width: 700px;\n    height: 400px;\n  }", "div.imagezy-wrapper:before {\n    content: \"\";\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    background-color: #D8D8D8;\n    background-image: url('../imagezy.svg');\n    background-repeat: no-repeat;\n    background-size: 40%;\n    background-position: center;\n    opacity: 1;\n    transition: opacity .2s, z-index .2s linear .5s;\n    z-index: 5;\n  }", "div.imagezy-wrapper:after {\n    content: \"\";\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: block;\n    width: 100%;\n    height: 100%;\n    background-color: black;\n    opacity: 1;\n    transition: all 2s;\n  }", "img.imagezy-img {\n    height: 100%;\n    width: 100%;\n  }", "div.imagezy-wrapper.reveal:before {\n    opacity: 0;\n    z-index: -1;\n  }", "div.imagezy-wrapper.reveal:after {\n    animation: reveal 0.75s forwards;\n  }", "@keyframes reveal {\n    0% { opacity: 1; }\n    15% { opacity: 0.95; }\n    100% { opacity: 0; }\n  }"];
 
 exports.css = css;
 },{}],2:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var processOptions = function processOptions(config, opts) {
+  for (var option in config) {
+    switch (option) {
+      case 'fadeColor':
+        opts[option] = config[option];
+        break;
+      case 'threshold':
+        opts[option] = config[option];
+        break;
+      default:
+        break;
+    }
+  }
+  return opts;
+};
+
+var loadConfigurations = function loadConfigurations(config) {
+  var options = {
+    fadeColor: 'black',
+    threshold: 0.4
+  };
+
+  return config ? processOptions(config, options) : options;
+};
+
+var setTrigger = function setTrigger(threshold) {
+  if (threshold < 1) {
+    return window.innerHeight * (1 - threshold);
+  } else {
+    return window.innerHeight - threshold;
+  }
+};
+
+var formatThreshold = function formatThreshold(threshold) {
+  if (!threshold) {
+    return 0.4;
+  };
+  return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
+};
+
+var wrapImage = function wrapImage(image) {
+  var currentParent = image.parentNode;
+  var imagezy = image;
+  var wrapper = document.createElement('div');
+  wrapper.classList.add('imagezy-wrapper');
+
+  currentParent.insertBefore(wrapper, imagezy);
+  wrapper.appendChild(imagezy);
+};
+
+exports.loadConfigurations = loadConfigurations;
+exports.setTrigger = setTrigger;
+exports.formatThreshold = formatThreshold;
+exports.wrapImage = wrapImage;
+},{}],3:[function(require,module,exports){
+'use strict';
+
 var _cssRules = require('./cssRules');
 
+var _functions = require('./functions');
+
 var initializeImagezy = function initializeImagezy() {
+  /*!
+   * Load configurations
+   */
+  var opts = (0, _functions.loadConfigurations)(imagezyConfig);
+
   /*!
    * Create and append a new stylesheet to <head>
    */
@@ -34,42 +101,15 @@ var initializeImagezy = function initializeImagezy() {
     sheet.insertRule(rule, sheet.cssRules.length);
   });
 
-  /*!
-   * FUNCTIONS
-   */
-
-  var setTrigger = function setTrigger(threshold) {
-    if (threshold < 1) {
-      return window.innerHeight * (1 - threshold);
-    } else {
-      return window.innerHeight - threshold;
-    }
-  };
-
-  var formatThreshold = function formatThreshold(threshold) {
-    if (!threshold) {
-      return 0.4;
-    };
-    return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
-  };
+  sheet.insertRule('div.imagezy-wrapper:after {\n    background-color: ' + opts.fadeColor + '\n  }', sheet.cssRules.length);
 
   /*!
-   * Sets didScroll=true, if it isn't already.
+   * Checks the value of didScroll. If it's false, sets it to true.
    */
-  var userScrolled = function userScrolled() {
+  var captureScroll = function captureScroll() {
     if (didScroll !== true) {
       didScroll = true;
     }
-  };
-
-  var wrapImage = function wrapImage(image) {
-    var currentParent = image.parentNode;
-    var imagezy = image;
-    var wrapper = document.createElement('div');
-    wrapper.classList.add('imagezy-wrapper');
-
-    currentParent.insertBefore(wrapper, imagezy);
-    wrapper.appendChild(imagezy);
   };
 
   /*!
@@ -80,10 +120,10 @@ var initializeImagezy = function initializeImagezy() {
    */
   var checkImagezys = function checkImagezys(imagezys) {
     imagezys.forEach(function (imagezy) {
-      var threshold = formatThreshold(imagezy.getAttribute('data-threshold'));
+      var threshold = (0, _functions.formatThreshold)(opts.threshold.toString());
       var imgPosition = imagezy.getBoundingClientRect().top;
 
-      if (imgPosition < setTrigger(threshold) && imagezy.getAttribute('data-src')) {
+      if (imgPosition < (0, _functions.setTrigger)(threshold) && imagezy.getAttribute('data-src')) {
         imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
         imagezy.removeAttribute('data-src');
         imagezyCount--;
@@ -110,7 +150,7 @@ var initializeImagezy = function initializeImagezy() {
    * Wrap each imagezy with a wrapper and onload trigger function
    */
   imagezys.forEach(function (imagezy) {
-    wrapImage(imagezy);
+    (0, _functions.wrapImage)(imagezy);
     imagezy.onload = function () {
       imagezy.parentNode.classList.add('reveal');
     };
@@ -119,10 +159,10 @@ var initializeImagezy = function initializeImagezy() {
   /*!
    * Event listener that sets didScroll=true when the user scrolls the page.
    */
-  window.addEventListener('scroll', userScrolled);
+  window.addEventListener('scroll', captureScroll);
 };
 
 window.onload = function () {
   initializeImagezy();
 };
-},{"./cssRules":1}]},{},[2]);
+},{"./cssRules":1,"./functions":2}]},{},[3]);
