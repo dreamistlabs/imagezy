@@ -2,7 +2,7 @@
   "name": "imagezy",
   "version": "0.0.1",
   "description": "Load images on your website, lazily.",
-  "main": "dist/imagezy.js",
+  "main": "dist/imagezy.min.js",
   "engines": {
     "node": ">=4.2.4"
   },
