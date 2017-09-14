@@ -1,0 +1,7 @@
+# non-production folders
+build/
+src/
+docs/
+
+# node dependencies
+node_modules/
