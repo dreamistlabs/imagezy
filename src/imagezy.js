@@ -7,7 +7,7 @@ const initializeImagezy = () => {
   /*!
    * Load configurations
    */
-  let opts = loadConfigurations(imagezyConfig);
+  let opts = (typeof imagezyConfig != "undefined") ? loadConfigurations(imagezyConfig) : loadConfigurations();
 
   /*!
    * Create and append a new stylesheet to <head>

@@ -9,7 +9,7 @@ var initializeImagezy = function initializeImagezy() {
   /*!
    * Load configurations
    */
-  var opts = (0, _functions.loadConfigurations)(imagezyConfig);
+  var opts = typeof imagezyConfig != "undefined" ? (0, _functions.loadConfigurations)(imagezyConfig) : (0, _functions.loadConfigurations)();
 
   /*!
    * Create and append a new stylesheet to <head>
