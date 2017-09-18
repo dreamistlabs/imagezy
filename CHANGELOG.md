@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## 1.0.1 - WORK IN PROGRESS
+### Fixed
+ - If the user doesn't specify an imagezyConfig variable in his/her HTML file, a 'variable not defined' error is thrown, causing the script to stop running. This has been fixed. Now, if the user doesn't declare an imagezyConfig variable, the script will use default values.
+ - The imagezy placeholder svg image, which used a relative path, was not pulling in production. This has been fixed. The logo is now embedded into the CSS itself and no longer needs to reference a separate file. The logo was also shortened to only include the path of the letter 'I' in order to save on file size.
+
 ## 1.0.0 - 2017-09-13
 ### Added
 - Users can now pass in options by declaring an `imagezyConfig` variable in a script.
