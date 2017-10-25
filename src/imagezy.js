@@ -1,6 +1,5 @@
 'use strict';
 
-import { css } from './lib/cssRules';
 import { loadConfigurations, setTrigger, formatThreshold, wrapImage } from './lib/functions';
 
 const initializeImagezy = () => {
@@ -10,29 +9,11 @@ const initializeImagezy = () => {
   let opts = (typeof imagezyConfig != "undefined") ? loadConfigurations(imagezyConfig) : loadConfigurations();
 
   /*!
-   * Create and append a new stylesheet to <head>
-   */
-  let style = document.createElement("style");
-              document.head.appendChild(style);
-  let sheet = style.sheet;
-
-  /*!
    * Collect all imagezy images
    */
   const imagezys = document.querySelectorAll('.imagezy-img');
   let imagezyCount = imagezys.length;
   let didScroll = false;
-
-  /*!
-   * Inject Imagezy CSS
-   */
-  css.forEach(function(rule) {
-    sheet.insertRule(rule, sheet.cssRules.length);
-  });
-
-  sheet.insertRule(
-  `div.imagezy-wrapper:after {background-color: ${opts.fadeColor}}`
-  , sheet.cssRules.length);
 
   /*!
    * Checks the value of didScroll. If it's false, sets it to true.
@@ -78,7 +59,7 @@ const initializeImagezy = () => {
    */
   imagezys.forEach((imagezy) => {
     wrapImage(imagezy);
-    imagezy.onload = () => { imagezy.parentNode.classList.add('reveal'); }
+    imagezy.onload = () => { imagezy.parentNode.classList.add('imagezy-reveal'); }
   });
 
   /*!

@@ -1,8 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var _cssRules = require('./lib/cssRules');
-
 var _functions = require('./lib/functions');
 
 var initializeImagezy = function initializeImagezy() {
@@ -12,27 +10,11 @@ var initializeImagezy = function initializeImagezy() {
   var opts = typeof imagezyConfig != "undefined" ? (0, _functions.loadConfigurations)(imagezyConfig) : (0, _functions.loadConfigurations)();
 
   /*!
-   * Create and append a new stylesheet to <head>
-   */
-  var style = document.createElement("style");
-  document.head.appendChild(style);
-  var sheet = style.sheet;
-
-  /*!
    * Collect all imagezy images
    */
   var imagezys = document.querySelectorAll('.imagezy-img');
   var imagezyCount = imagezys.length;
   var didScroll = false;
-
-  /*!
-   * Inject Imagezy CSS
-   */
-  _cssRules.css.forEach(function (rule) {
-    sheet.insertRule(rule, sheet.cssRules.length);
-  });
-
-  sheet.insertRule('div.imagezy-wrapper:after {background-color: ' + opts.fadeColor + '}', sheet.cssRules.length);
 
   /*!
    * Checks the value of didScroll. If it's false, sets it to true.
@@ -83,7 +65,7 @@ var initializeImagezy = function initializeImagezy() {
   imagezys.forEach(function (imagezy) {
     (0, _functions.wrapImage)(imagezy);
     imagezy.onload = function () {
-      imagezy.parentNode.classList.add('reveal');
+      imagezy.parentNode.classList.add('imagezy-reveal');
     };
   });
 
@@ -96,16 +78,8 @@ var initializeImagezy = function initializeImagezy() {
 window.onload = function () {
   initializeImagezy();
 };
-},{"./lib/cssRules":2,"./lib/functions":3}],2:[function(require,module,exports){
-"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var css = ["div.imagezy-wrapper {\n  position: relative;\n  display: inline-block;\n  width: 700px;\n  height: 400px;\n}", "div.imagezy-wrapper:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  display: block;\n  width: 100%;\n  height: 100%;\n  background-color: black;\n  opacity: 1;\n  transition: all 2s;\n}", "img.imagezy-img {\n  height: 100%;\n  width: 100%;\n}", "div.imagezy-wrapper.reveal:after {\n  animation: reveal 1.75s forwards;\n}", "@keyframes reveal {\n  0% { opacity: 1; }\n  15% { opacity: 0.95; }\n  100% { opacity: 0; }\n}"];
-
-exports.css = css;
-},{}],3:[function(require,module,exports){
+},{"./lib/functions":2}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -165,4 +139,5 @@ exports.loadConfigurations = loadConfigurations;
 exports.setTrigger = setTrigger;
 exports.formatThreshold = formatThreshold;
 exports.wrapImage = wrapImage;
+
 },{}]},{},[1]);

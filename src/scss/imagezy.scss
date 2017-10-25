@@ -1,0 +1,34 @@
+div.imagezy-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 700px;
+  height: 400px;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 1;
+    transition: all 2s;
+  }
+
+  &.imagezy-reveal:after {
+    animation: reveal 1.75s forwards;
+  }
+}
+
+img.imagezy-img {
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes reveal {
+  0% { opacity: 1; }
+  15% { opacity: 0.95; }
+  100% { opacity: 0; }
+}
