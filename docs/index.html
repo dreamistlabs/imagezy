@@ -4,46 +4,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Imagezy | Load Your Images Lazily</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
   <link href="./assets/stylesheets/normalize.css" rel="stylesheet">
   <link href="./assets/stylesheets/main.css" rel="stylesheet">
   <script src="https://use.fontawesome.com/e156e7e1f9.js"></script>
 </head>
-<body>
-  <div class="jumbotron">
-    <img class="logo" src="./assets/images/imagezy-white.svg" alt="Imagezy logo" />
-    <p>Load your images lazily</p>
-  </div>
+<body class="pt-80">
+  <header id="site-header" class="main-header">
+    <img id="site-logo" class="brand-logo" src="assets/images/imagezy.svg" />
+  </header>
 
-  <section id="highlights">
-    <h2 class="section__heading">Features</h2>
-    <div class="section__container">
-      <div class="feature-card">
-        <div class="feature-card__icon">
-          <i class="fa fa-file-o fa-4x"></i>
-        </div>
-        <h3 class="feature-card__heading">It's Small</h3>
-        <p class="feature-card__description">Just 3KBs</p>
+  <section id="jumbotron">
+    <div class="jumbotron-wrapper container">
+      <div class="col-left">
+        <h1 class="jumbo-heading">
+          Load Your <br>
+          Images <em>Lazily</em>
+        </h1>
+        <p>Lorem ipsum</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-card__icon">
-          <i class="fa fa-image fa-4x"></i>
-        </div>
-        <h3 class="feature-card__heading">It's Simple</h3>
-          <p class="feature-card__description">Use an image tag like you already do</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-card__icon">
-          <i class="fa fa-code fa-4x"></i>
-        </div>
-        <h3 class="feature-card__heading">It's Vanilla</h3>
-          <p class="feature-card__description">Pure JavaScript, no jQuery needed</p>
+      <div class="col-right">
+        <img class="imagezy-img" width="100%" data-src="https://cdn.pixabay.com/photo/2013/08/28/00/54/landscape-176602_960_720.jpg" />
       </div>
     </div>
   </section>
 
   <section id="getting-started">
-    <h2 class="section__heading">Getting Started</h2>
+    <div class="container">
+      <h2 class="section__heading">Getting Started</h2>
+    </div>
+  </section>
 
+  <section id="highlights">
+    <div class="container">
+      <h2 class="section__heading">Features</h2>
+      <div class="section__container">
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <i class="fa fa-file-o fa-4x"></i>
+          </div>
+          <h3 class="feature-card__heading">It's Small</h3>
+          <p class="feature-card__description">Just 3KBs</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <i class="fa fa-image fa-4x"></i>
+          </div>
+          <h3 class="feature-card__heading">It's Simple</h3>
+            <p class="feature-card__description">Use an image tag like you already do</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <i class="fa fa-code fa-4x"></i>
+          </div>
+          <h3 class="feature-card__heading">It's Vanilla</h3>
+            <p class="feature-card__description">Pure JavaScript, no jQuery needed</p>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section>
@@ -63,5 +81,6 @@
       <img class="imagezy-img" data-src="http://eskipaper.com/images/pretty-landscape-sunset-1.jpg" />
   </section>
   <script src="../dist/imagezy.js"></script>
+  <script src="assets/scripts/main.js"></script>
 </body>
 </html>
