@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
-## 1.0.1 - WORK IN PROGRESS
+## 2.0.0 - WORK IN PROGRESS
+### Changed
+ - CSS styles are no longer injected into the user agent stylesheet. Instead, the CSS is now in its own separate file, which users
+ will be required to include in their application in order for the styles to apply.
+ - Added and modified a few npm scripts that are used to build the production files. More specifically, Babelify is being used to convert ES6 syntax. Also, node-sass-chokidar - alongside autoprefixer and postcss - now compiles SCSS to CSS, along with a sourcemaps.
+
 ### Fixed
  - If the user doesn't specify an imagezyConfig variable in his/her HTML file, a 'variable not defined' error is thrown, causing the script to stop running. This has been fixed. Now, if the user doesn't declare an imagezyConfig variable, the script will use default values.
  - The imagezy placeholder svg image, which used a relative path, was not pulling in production. This has been fixed. The logo is now embedded into the CSS itself and no longer needs to reference a separate file. The logo was also shortened to only include the path of the letter 'I' in order to save on file size.
