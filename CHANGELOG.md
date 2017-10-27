@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [Unreleased]
 
 ## 2.0.0 - WORK IN PROGRESS
+### Added
+ - Filled in the Installation, Getting Started, and Usage README sections.
+ - Added Johnny Hu as a copyright owner.
+
 ### Changed
  - CSS styles are no longer injected into the user agent stylesheet. Instead, the CSS is now in its own separate file, which users
  will be required to include in their application in order for the styles to apply.
