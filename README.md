@@ -17,7 +17,7 @@ Or CDN:
 ```
 
 ## Getting Started
-###Express
+### Express
 Add the following to your `app.js` file:
 ```
 app.use('/imagezy', express.static(__dirname + '/node_modules/imagezy/dist/'));
@@ -27,7 +27,7 @@ Then, link to the library and styles in the main `layout` view page.
 <script src='/imagezy/imagezy.min.js'></script>
 <link href='/imagezy/imagezy.css' rel='stylesheet'>
 ```
-###React
+### React
 Add the following to your `App.js` file:
 ```
 import 'imagezy/dist/imagezy.min.js';
