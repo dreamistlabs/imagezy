@@ -8,7 +8,7 @@
   },
   "scripts": {
     "babelify": "browserify src/imagezy.js -o dist/imagezy.js -t [ babelify --presets [ env ] ]",
-    "build-dist": "npm-run-all js:build sass:build",
+    "build:dist": "npm-run-all js:build sass:build",
     "js:build": "npm-run-all -p babelify uglify",
     "prepublish": "npm run build-dist",
     "test": "mocha --reporter spec",
