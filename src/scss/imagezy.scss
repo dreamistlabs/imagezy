@@ -1,34 +1,40 @@
+$orange: #f5a623;
+$border-width: 0.5rem;
+
 div.imagezy-wrapper {
   position: relative;
   display: inline-block;
-  width: 700px;
+  width: 100%;
   height: 400px;
-
   &:after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: black;
+    left: 50%;
+    top: 50%;
+    margin: -$border-width 0 0 -$border-width;
+    width: 5rem;
+    height: 5rem;
+    border: $border-width solid transparent;
+    border-top: $border-width solid $orange;
+    border-right: $border-width solid $orange;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
     opacity: 1;
-    transition: all 2s;
+    transition: opacity 0.5s cubic-bezier(.5,.02,.8,.26);
+    animation: spin 1.5s linear infinite;
+    z-index: 10;
   }
+  &:not(.loading):after { opacity: 0; }
 
-  &.imagezy-reveal:after {
-    animation: reveal 1.75s forwards;
+  .imagezy-img {
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    transition: opacity 1s cubic-bezier(.5,.02,.8,.26);
+    &[data-src] { opacity: 0; }
   }
 }
-
-img.imagezy-img {
-  height: 100%;
-  width: 100%;
-}
-
-@keyframes reveal {
-  0% { opacity: 1; }
-  15% { opacity: 0.95; }
-  100% { opacity: 0; }
+@keyframes spin {
+    0%   { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
 }

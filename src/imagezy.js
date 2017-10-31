@@ -59,7 +59,7 @@ const initializeImagezy = () => {
    */
   imagezys.forEach((imagezy) => {
     wrapImage(imagezy);
-    imagezy.onload = () => { imagezy.parentNode.classList.add('imagezy-reveal'); }
+    imagezy.onload = () => { imagezy.parentNode.classList.remove('loading'); }
   });
 
   /*!

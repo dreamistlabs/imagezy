@@ -65,7 +65,7 @@ var initializeImagezy = function initializeImagezy() {
   imagezys.forEach(function (imagezy) {
     (0, _functions.wrapImage)(imagezy);
     imagezy.onload = function () {
-      imagezy.parentNode.classList.add('imagezy-reveal');
+      imagezy.parentNode.classList.remove('loading');
     };
   });
 
@@ -129,7 +129,7 @@ var wrapImage = function wrapImage(image) {
   var currentParent = image.parentNode;
   var imagezy = image;
   var wrapper = document.createElement('div');
-  wrapper.classList.add('imagezy-wrapper');
+  wrapper.classList.add('imagezy-wrapper', 'loading');
 
   currentParent.insertBefore(wrapper, imagezy);
   wrapper.appendChild(imagezy);

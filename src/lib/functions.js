@@ -42,7 +42,7 @@ const wrapImage = (image) => {
   let currentParent = image.parentNode;
   let imagezy = image;
   let wrapper = document.createElement('div');
-  wrapper.classList.add('imagezy-wrapper');
+  wrapper.classList.add('imagezy-wrapper', 'loading');
 
   currentParent.insertBefore(wrapper, imagezy);
   wrapper.appendChild(imagezy);
