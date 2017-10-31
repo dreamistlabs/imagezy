@@ -19,7 +19,7 @@ const processOptions = (config, opts) => {
 const loadConfigurations = (config) => {
   let options = {
     fadeColor: 'black',
-    threshold: 0.4
+    threshold: 1
   };
 
   return config ? processOptions(config, options) : options;
