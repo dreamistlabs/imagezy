@@ -9,7 +9,7 @@
   <link href="./assets/stylesheets/main.css" rel="stylesheet">
   <script src="https://use.fontawesome.com/e156e7e1f9.js"></script>
 </head>
-<body class="fixed-navbar-padding">
+<body>
   <header id="site-header" class="main-header">
     <div class="logo-container">
       <img class="brand-logo" src="./assets/images/imagezy.svg" />
@@ -20,24 +20,47 @@
     </a>
   </header>
 
-  <section id="jumbotron">
+  <section id="jumbotron" class="jumbotron-section">
     <div class="jumbotron-wrapper container">
-      <div class="col-left">
-        <h1 class="jumbo-heading">
-          Load Your <br>
-          Images <em>Lazily</em>
-        </h1>
-        <p>Lorem ipsum</p>
-      </div>
-      <div class="col-right">
-        <img class="imagezy-img" width="100%" data-src="https://cdn.pixabay.com/photo/2013/08/28/00/54/landscape-176602_960_720.jpg" />
-      </div>
+      <h1 class="jumbotron-heading">
+        Load Your Images Lazily
+      </h1>
+      <p class="jumbotron-subtext">
+        A simple, vanilla JS library that loads images on your page only when they scroll into view.
+      </p>
+      <button class="btn">
+        Download
+      </button>
     </div>
   </section>
 
-  <section id="getting-started">
-    <div class="container">
+  <section id="getting-started" class="getting-started-section">
+    <div class="getting-started-wrapper container">
       <h2 class="section__heading">Getting Started</h2>
+      <ul class="navigation-tabs">
+        <li class="tab-item is-active" data-tab-name="">Item</li>
+        <li class="tab-item" data-tab-name="">Item</li>
+        <li class="tab-item" data-tab-name="">Item</li>
+        <li class="tab-item" data-tab-name="">Item</li>
+        <li class="tab-item" data-tab-name="">Item</li>
+      </ul>
+      <div class="widget-container">
+        <div class="widget" data-widget-name="">
+          Hello
+        </div>
+        <div class="widget" data-widget-name="">
+          Hello
+        </div>
+        <div class="widget" data-widget-name="">
+          Hello
+        </div>
+        <div class="widget" data-widget-name="">
+          Hello
+        </div>
+        <div class="widget" data-widget-name="">
+          Hello
+        </div>
+      </div>
     </div>
   </section>
 
