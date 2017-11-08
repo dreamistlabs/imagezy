@@ -19,7 +19,7 @@ const processOptions = (config, opts) => {
 const loadConfigurations = (config) => {
   let options = {
     fadeColor: 'black',
-    threshold: 0.4
+    threshold: 1
   };
 
   return config ? processOptions(config, options) : options;
@@ -42,7 +42,7 @@ const wrapImage = (image) => {
   let currentParent = image.parentNode;
   let imagezy = image;
   let wrapper = document.createElement('div');
-  wrapper.classList.add('imagezy-wrapper');
+  wrapper.classList.add('imagezy-wrapper', 'loading');
 
   currentParent.insertBefore(wrapper, imagezy);
   wrapper.appendChild(imagezy);

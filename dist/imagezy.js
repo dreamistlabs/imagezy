@@ -4,21 +4,15 @@
 var _functions = require('./lib/functions');
 
 var initializeImagezy = function initializeImagezy() {
-  /*!
-   * Load configurations
-   */
+  // Load configurations.
   var opts = typeof imagezyConfig != "undefined" ? (0, _functions.loadConfigurations)(imagezyConfig) : (0, _functions.loadConfigurations)();
 
-  /*!
-   * Collect all imagezy images
-   */
+  // Collect all imagezy images.
   var imagezys = document.querySelectorAll('.imagezy-img');
   var imagezyCount = imagezys.length;
   var didScroll = false;
 
-  /*!
-   * Checks the value of didScroll. If it's false, sets it to true.
-   */
+  // Checks the value of didScroll. If it's false, sets it to true.
   var captureScroll = function captureScroll() {
     if (didScroll !== true) {
       didScroll = true;
@@ -59,19 +53,17 @@ var initializeImagezy = function initializeImagezy() {
     }
   }, 100);
 
-  /*!
-   * Wrap each imagezy with a wrapper and onload trigger function
-   */
+  // Wrap each imagezy with a wrapper and onload trigger function.
   imagezys.forEach(function (imagezy) {
     (0, _functions.wrapImage)(imagezy);
     imagezy.onload = function () {
-      imagezy.parentNode.classList.add('imagezy-reveal');
+      imagezy.parentNode.classList.remove('loading');
+      imagezy.parentNode.style.width = "auto";
+      imagezy.parentNode.style.height = "auto";
     };
   });
 
-  /*!
-   * Event listener that sets didScroll=true when the user scrolls the page.
-   */
+  // Event listener that sets didScroll=true when the user scrolls the page.
   window.addEventListener('scroll', captureScroll);
 };
 
@@ -104,7 +96,7 @@ var processOptions = function processOptions(config, opts) {
 var loadConfigurations = function loadConfigurations(config) {
   var options = {
     fadeColor: 'black',
-    threshold: 0.4
+    threshold: 1
   };
 
   return config ? processOptions(config, options) : options;
@@ -129,7 +121,7 @@ var wrapImage = function wrapImage(image) {
   var currentParent = image.parentNode;
   var imagezy = image;
   var wrapper = document.createElement('div');
-  wrapper.classList.add('imagezy-wrapper');
+  wrapper.classList.add('imagezy-wrapper', 'loading');
 
   currentParent.insertBefore(wrapper, imagezy);
   wrapper.appendChild(imagezy);

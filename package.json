@@ -8,14 +8,14 @@
   },
   "scripts": {
     "babelify": "browserify src/imagezy.js -o dist/imagezy.js -t [ babelify --presets [ env ] ]",
-    "build-dist": "npm-run-all js:build sass:build",
+    "build:dist": "npm-run-all js:build sass:build",
     "js:build": "npm-run-all -p babelify uglify",
-    "prepublish": "npm run build-dist",
+    "prepublish": "npm run build:dist",
     "test": "mocha --reporter spec",
     "uglify": "uglifyjs dist/imagezy.js -c --source-map --output dist/imagezy.min.js ",
-    "compile-scss": "node-sass-chokidar --source-map true src/scss/ -o dist/",
+    "compile:scss": "node-sass-chokidar --source-map true src/scss/ -o dist/",
     "autoprefixer": "postcss dist/*.css --use autoprefixer -d dist",
-    "sass:build": "npm-run-all -p compile-scss autoprefixer",
+    "sass:build": "npm-run-all -p compile:scss autoprefixer",
     "sass:watch": "chokidar 'src/scss/**/*.scss' -c 'npm run sass:build'"
   },
   "repository": {

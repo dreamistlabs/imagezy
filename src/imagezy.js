@@ -3,21 +3,15 @@
 import { loadConfigurations, setTrigger, formatThreshold, wrapImage } from './lib/functions';
 
 const initializeImagezy = () => {
-  /*!
-   * Load configurations
-   */
+  // Load configurations.
   let opts = (typeof imagezyConfig != "undefined") ? loadConfigurations(imagezyConfig) : loadConfigurations();
 
-  /*!
-   * Collect all imagezy images
-   */
+  // Collect all imagezy images.
   const imagezys = document.querySelectorAll('.imagezy-img');
   let imagezyCount = imagezys.length;
   let didScroll = false;
 
-  /*!
-   * Checks the value of didScroll. If it's false, sets it to true.
-   */
+  // Checks the value of didScroll. If it's false, sets it to true.
   const captureScroll = () => {
     if (didScroll !== true) { didScroll = true; }
   }
@@ -54,21 +48,18 @@ const initializeImagezy = () => {
     }
   }, 100);
 
-  /*!
-   * Wrap each imagezy with a wrapper and onload trigger function
-   */
+  // Wrap each imagezy with a wrapper and onload trigger function.
   imagezys.forEach((imagezy) => {
     wrapImage(imagezy);
-    imagezy.onload = () => { imagezy.parentNode.classList.add('imagezy-reveal'); }
+    imagezy.onload = () => { 
+      imagezy.parentNode.classList.remove('loading'); 
+      // imagezy.parentNode.style.width = "auto";
+      // imagezy.parentNode.style.height = "auto";
+    }
   });
 
-  /*!
-   * Event listener that sets didScroll=true when the user scrolls the page.
-   */
+  // Event listener that sets didScroll=true when the user scrolls the page.
   window.addEventListener('scroll', captureScroll);
-
 };
 
-window.onload = function() {
-  initializeImagezy();
-};
+window.onload = function() { initializeImagezy(); };
