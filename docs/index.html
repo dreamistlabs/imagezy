@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Imagezy | Load Your Images Lazily</title>
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700|Cutive+Mono" rel="stylesheet">
   <link href="./assets/stylesheets/normalize.css" rel="stylesheet">
   <link href="./assets/stylesheets/main.css" rel="stylesheet">
   <script src="https://use.fontawesome.com/e156e7e1f9.js"></script>
@@ -38,27 +38,86 @@
     <div class="getting-started-wrapper container">
       <h2 class="section__heading">Getting Started</h2>
       <ul class="navigation-tabs">
-        <li class="tab-item is-active" data-tab-name="">Item</li>
-        <li class="tab-item" data-tab-name="">Item</li>
-        <li class="tab-item" data-tab-name="">Item</li>
-        <li class="tab-item" data-tab-name="">Item</li>
-        <li class="tab-item" data-tab-name="">Item</li>
+        <li class="tab-item is-active" data-tab-name="cdn" onclick="switchTab(this);">cdn</li>
+        <li class="tab-item" data-tab-name="npm" onclick="switchTab(this);">npm</li>
+        <li class="tab-item" data-tab-name="yarn" onclick="switchTab(this);">yarn</li>
+        <li class="tab-item" data-tab-name="express" onclick="switchTab(this);">express</li>
+        <li class="tab-item" data-tab-name="react" onclick="switchTab(this);">react</li>
       </ul>
       <div class="widget-container">
-        <div class="widget" data-widget-name="">
-          Hello
+        <div class="widget is-active" data-widget-name="cdn">
+          <h3>cdn</h3>
+          <p>Using a CDN link is quick and easy — plus, you don't have to download anything. Just copy the following code into the <code>&lt;head&gt;</code> section of your webpage.</p>
+          <pre>
+            <code>
+  &lt;script src="https://cdn.jsdelivr.net/gh/dreamistlabs/imagezy/dist/imagezy.min.js"&gt;&lt;/script&gt;
+  &lt;link href="https://cdn.jsdelivr.net/gh/dreamistlabs/imagezy/dist/imagezy.css" rel="stylesheet"&gt;
+            </code>
+          </pre>
         </div>
-        <div class="widget" data-widget-name="">
-          Hello
+        <div class="widget" data-widget-name="npm">
+          <h3>npm</h3>
+          <p>You can install the library and styles via npm in the command line.</p>
+          <pre>
+            <code>
+  npm install imagezy --save
+            </code>
+          </pre>
         </div>
-        <div class="widget" data-widget-name="">
-          Hello
+        <div class="widget" data-widget-name="yarn">
+          <h3>yarn</h3>
+          <p>You can install the library and styles via yarn in the command line.</p>
+          <pre>
+            <code>
+  yarn add imagezy
+            </code>
+          </pre>
         </div>
-        <div class="widget" data-widget-name="">
-          Hello
+        <div class="widget" data-widget-name="express">
+          <h3>express</h3>
+          <p>Make sure you've added Imagezy to your react application, either with npm or yarn, via the command line.</p>
+          <pre>
+            <code>
+  npm install imagezy --save
+
+  /* or */
+
+  yarn add imagezy
+            </code>
+          </pre>
+          <p>Next, add the following to your <code>app.js</code> file:</p>
+          <pre>
+            <code>
+  app.use('/imagezy', express.static(__dirname + '/node_modules/imagezy/dist/'));
+            </code>
+          </pre>
+          <p>Then, in your project's main layout view, add the following code:</p>
+          <pre>
+            <code>
+  &lt;script src='/imagezy/imagezy.min.js'&gt;&lt;/script&gt;
+  &lt;link href='/imagezy/imagezy.css' rel='stylesheet'&gt;
+            </code>
+          </pre>
         </div>
-        <div class="widget" data-widget-name="">
-          Hello
+        <div class="widget" data-widget-name="react">
+          <h3>react</h3>
+          <p>Make sure you've added Imagezy to your react application, either with npm or yarn, via the command line.</p>
+          <pre>
+            <code>
+  npm install imagezy --save
+
+  /* or */
+
+  yarn add imagezy
+            </code>
+          </pre>
+          <p>Next, add the following to your <code>App.js</code> file:</p>
+          <pre>
+            <code>
+  import 'imagezy/dist/imagezy.min.js';
+  import 'imagezy/dist/imagezy.css';
+            </code>
+          </pre>
         </div>
       </div>
     </div>
@@ -111,8 +170,7 @@
   </section>
   <footer id="site-footer" class="main-footer">
     <p class="footer-text">
-      &copy; 2017 Dreamist Labs.
-      Created by <a href="https://github.com/heyitsjhu"> Johnny Hu</a>.
+      &copy; 2017 Dreamist Labs. Created with <span class="emoji-love"></span> and <span class="emoji-curiosity"></span> by <a href="https://github.com/heyitsjhu" target="_blank"> Johnny Hu</a>.
     </p>
   </footer>
   <script src="../dist/imagezy.js"></script>

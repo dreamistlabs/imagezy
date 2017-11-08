@@ -34,6 +34,10 @@ a:hover {
   color: #111;
   border-color: #F5A623;
 }
+pre, code {
+  font-family: 'Cutive Mono', monospace;
+  letter-spacing: -0.5px;
+}
 .container {
   margin: 0 auto;
   padding: 8rem 2rem 10rem;
@@ -180,6 +184,11 @@ section#highlights .section__container {
 .tab-item {
   padding: 0.75rem 1.5rem;
   background-color: #E1E1E1;
+  transition: all .2s linear;
+}
+.tab-item:hover {
+  background-color: #C1C1C1;
+  cursor: pointer;
 }
 .tab-item:first-child {
   border-top-left-radius: 5px;
@@ -218,8 +227,16 @@ section#highlights .section__container {
   left: auto;
 }
 .widget {
+  display: none;
   width: 100%;
   height: 100%;
+}
+.widget.is-active {
+  display: block;
+}
+.widget pre {
+  background: #E1E1E1;
+  border-radius: 3px;
 }
 
 /* main footer */
@@ -234,4 +251,24 @@ section#highlights .section__container {
 }
 .footer-text a:hover {
   border-color: #333;
+}
+[class^="emoji-"] {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.25rem;
+  width: 1rem;
+  height: 1rem;
+}
+[class^="emoji-"]:before {
+  position: absolute;
+  top: 2px;
+  left: -1px;
+  width: 100%;
+  height: 100%;
+}
+.emoji-curiosity:before {
+  content: "\1F914";
+}
+.emoji-love:before {
+  content: "\1F497";
 }
