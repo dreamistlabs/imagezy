@@ -39,16 +39,23 @@ const formatThreshold = (threshold) => {
 }
 
 const wrapImage = (image) => {
-  let currentParent = image.parentNode;
-  let imagezy = image;
-  let wrapper = document.createElement('div');
-  let icon = document.createElement('span');
+  let parent = image.parentNode,
+      imgClasses = image.classList,
+      wrapper = document.createElement('div'),
+      icon = document.createElement('span');
   wrapper.classList.add('imagezy-wrapper', 'loading');
-  icon.classList.add('imagezy-icon');
 
-  currentParent.insertBefore(wrapper, imagezy);
+  // move additional classes to wrapper element
+  for (let i = 1; i < imgClasses.length; i++) {
+    wrapper.classList.add(imgClasses[i]);
+    image.classList.remove(imgClasses[i]);
+  }
+
+  icon.classList.add('imagezy-icon');
+  parent.insertBefore(wrapper, image);
+
   wrapper.appendChild(icon);
-  wrapper.appendChild(imagezy);
+  wrapper.appendChild(image);
 }
 
 export { loadConfigurations, setTrigger, formatThreshold, wrapImage };

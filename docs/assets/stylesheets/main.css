@@ -43,10 +43,11 @@ pre, code {
   padding: 8rem 2rem 10rem;
   max-width: 1200px;
 }
-.col-left,
-.col-right {
-  width: 50%;
+.img-sm {
+  width: 700px;
+  height: 400px;
 }
+
 section#highlights .section__container {
   display: flex;
   justify-content: space-between;

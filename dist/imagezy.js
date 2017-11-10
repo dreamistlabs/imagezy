@@ -118,16 +118,23 @@ var formatThreshold = function formatThreshold(threshold) {
 };
 
 var wrapImage = function wrapImage(image) {
-  var currentParent = image.parentNode;
-  var imagezy = image;
-  var wrapper = document.createElement('div');
-  var icon = document.createElement('span');
+  var parent = image.parentNode,
+      imgClasses = image.classList,
+      wrapper = document.createElement('div'),
+      icon = document.createElement('span');
   wrapper.classList.add('imagezy-wrapper', 'loading');
-  icon.classList.add('imagezy-icon');
 
-  currentParent.insertBefore(wrapper, imagezy);
+  // move additional classes to wrapper element
+  for (var i = 1; i < imgClasses.length; i++) {
+    wrapper.classList.add(imgClasses[i]);
+    image.classList.remove(imgClasses[i]);
+  }
+
+  icon.classList.add('imagezy-icon');
+  parent.insertBefore(wrapper, image);
+
   wrapper.appendChild(icon);
-  wrapper.appendChild(imagezy);
+  wrapper.appendChild(image);
 };
 
 exports.loadConfigurations = loadConfigurations;
