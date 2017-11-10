@@ -1,23 +1,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var _functions = require('./lib/functions');
-
 var initializeImagezy = function initializeImagezy() {
-  // Load configurations.
-  var opts = typeof imagezyConfig != "undefined" ? (0, _functions.loadConfigurations)(imagezyConfig) : (0, _functions.loadConfigurations)();
-
   // Collect all imagezy images.
   var imagezys = document.querySelectorAll('.imagezy-img');
   var imagezyCount = imagezys.length;
   var didScroll = false;
-
-  // Checks the value of didScroll. If it's false, sets it to true.
-  var captureScroll = function captureScroll() {
-    if (didScroll !== true) {
-      didScroll = true;
-    }
-  };
 
   /*!
    * Checks position of each imagezy and sets its src attribute if its position
@@ -27,15 +15,39 @@ var initializeImagezy = function initializeImagezy() {
    */
   var checkImagezys = function checkImagezys(imagezys) {
     imagezys.forEach(function (imagezy) {
-      var threshold = (0, _functions.formatThreshold)(opts.threshold.toString());
       var imgPosition = imagezy.getBoundingClientRect().top;
 
-      if (imgPosition < (0, _functions.setTrigger)(threshold) && imagezy.getAttribute('data-src')) {
+      if (imgPosition < window.innerHeight * 0.50 && imagezy.getAttribute('data-src')) {
         imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
         imagezy.removeAttribute('data-src');
         imagezyCount--;
       }
     });
+  };
+
+  /*!
+   * Creates a wrapper element around the imagezy image, as well as a loading icon.
+   */
+  var wrapImage = function wrapImage(image) {
+    var parent = image.parentNode,
+        imgClasses = image.classList,
+        wrapper = document.createElement('div'),
+        icon = document.createElement('span');
+    wrapper.classList.add('imagezy-wrapper', 'loading');
+    icon.classList.add('imagezy-icon');
+
+    // move additional classes in imagezy to wrapper element
+    for (var i = 1; i < imgClasses.length; i++) {
+      wrapper.classList.add(imgClasses[i]);
+      image.classList.remove(imgClasses[i]);
+    }
+
+    // insert wrapper element in front of imagezy image
+    parent.insertBefore(wrapper, image);
+
+    // append loading icon and imagezy within wrapper
+    wrapper.appendChild(icon);
+    wrapper.appendChild(image);
   };
 
   /*!
@@ -55,91 +67,23 @@ var initializeImagezy = function initializeImagezy() {
 
   // Wrap each imagezy with a wrapper and onload trigger function.
   imagezys.forEach(function (imagezy) {
-    (0, _functions.wrapImage)(imagezy);
+    wrapImage(imagezy);
     imagezy.onload = function () {
       imagezy.parentNode.classList.remove('loading');
-      // imagezy.parentNode.style.width = "auto";
-      // imagezy.parentNode.style.height = "auto";
     };
   });
 
   // Event listener that sets didScroll=true when the user scrolls the page.
-  window.addEventListener('scroll', captureScroll);
+  window.addEventListener('scroll', function () {
+    // Checks the value of didScroll. If it's false, sets it to true.
+    if (didScroll !== true) {
+      didScroll = true;
+    }
+  });
 };
 
 window.onload = function () {
   initializeImagezy();
 };
-
-},{"./lib/functions":2}],2:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var processOptions = function processOptions(config, opts) {
-  for (var option in config) {
-    switch (option) {
-      case 'fadeColor':
-        opts[option] = config[option];
-        break;
-      case 'threshold':
-        opts[option] = config[option];
-        break;
-      default:
-        break;
-    }
-  }
-  return opts;
-};
-
-var loadConfigurations = function loadConfigurations(config) {
-  var options = {
-    fadeColor: 'black',
-    threshold: 1
-  };
-
-  return config ? processOptions(config, options) : options;
-};
-
-var setTrigger = function setTrigger(threshold) {
-  if (threshold < 1) {
-    return window.innerHeight * (1 - threshold);
-  } else {
-    return window.innerHeight - threshold;
-  }
-};
-
-var formatThreshold = function formatThreshold(threshold) {
-  if (!threshold) {
-    return 0.4;
-  };
-  return threshold.match(/\%$/) ? parseInt(threshold) / 100 : parseInt(threshold);
-};
-
-var wrapImage = function wrapImage(image) {
-  var parent = image.parentNode,
-      imgClasses = image.classList,
-      wrapper = document.createElement('div'),
-      icon = document.createElement('span');
-  wrapper.classList.add('imagezy-wrapper', 'loading');
-
-  // move additional classes to wrapper element
-  for (var i = 1; i < imgClasses.length; i++) {
-    wrapper.classList.add(imgClasses[i]);
-    image.classList.remove(imgClasses[i]);
-  }
-
-  icon.classList.add('imagezy-icon');
-  parent.insertBefore(wrapper, image);
-
-  wrapper.appendChild(icon);
-  wrapper.appendChild(image);
-};
-
-exports.loadConfigurations = loadConfigurations;
-exports.setTrigger = setTrigger;
-exports.formatThreshold = formatThreshold;
-exports.wrapImage = wrapImage;
 
 },{}]},{},[1]);

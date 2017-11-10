@@ -1,20 +1,10 @@
 'use strict';
 
-import { loadConfigurations, setTrigger, formatThreshold, wrapImage } from './lib/functions';
-
 const initializeImagezy = () => {
-  // Load configurations.
-  let opts = (typeof imagezyConfig != "undefined") ? loadConfigurations(imagezyConfig) : loadConfigurations();
-
   // Collect all imagezy images.
   const imagezys = document.querySelectorAll('.imagezy-img');
   let imagezyCount = imagezys.length;
   let didScroll = false;
-
-  // Checks the value of didScroll. If it's false, sets it to true.
-  const captureScroll = () => {
-    if (didScroll !== true) { didScroll = true; }
-  }
 
   /*!
    * Checks position of each imagezy and sets its src attribute if its position
@@ -24,15 +14,39 @@ const initializeImagezy = () => {
    */
   const checkImagezys = (imagezys) => {
     imagezys.forEach(function(imagezy) {
-      let threshold = formatThreshold(opts.threshold.toString());
       let imgPosition = imagezy.getBoundingClientRect().top;
 
-      if (imgPosition < setTrigger(threshold) && imagezy.getAttribute('data-src')) {
+      if (imgPosition < (window.innerHeight * 0.50) && imagezy.getAttribute('data-src')) {
         imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
         imagezy.removeAttribute('data-src');
         imagezyCount--;
       }
     });
+  }
+
+  /*!
+   * Creates a wrapper element around the imagezy image, as well as a loading icon.
+   */
+  const wrapImage = (image) => {
+    let parent = image.parentNode,
+        imgClasses = image.classList,
+        wrapper = document.createElement('div'),
+        icon = document.createElement('span');
+    wrapper.classList.add('imagezy-wrapper', 'loading');
+    icon.classList.add('imagezy-icon');
+
+    // move additional classes in imagezy to wrapper element
+    for (let i = 1; i < imgClasses.length; i++) {
+      wrapper.classList.add(imgClasses[i]);
+      image.classList.remove(imgClasses[i]);
+    }
+
+    // insert wrapper element in front of imagezy image
+    parent.insertBefore(wrapper, image);
+
+    // append loading icon and imagezy within wrapper
+    wrapper.appendChild(icon);
+    wrapper.appendChild(image);
   }
 
   /*!
@@ -53,13 +67,14 @@ const initializeImagezy = () => {
     wrapImage(imagezy);
     imagezy.onload = () => {
       imagezy.parentNode.classList.remove('loading');
-      // imagezy.parentNode.style.width = "auto";
-      // imagezy.parentNode.style.height = "auto";
     }
   });
 
   // Event listener that sets didScroll=true when the user scrolls the page.
-  window.addEventListener('scroll', captureScroll);
+  window.addEventListener('scroll', () => {
+    // Checks the value of didScroll. If it's false, sets it to true.
+    if (didScroll !== true) { didScroll = true; }
+  });
 };
 
 window.onload = function() { initializeImagezy(); };
