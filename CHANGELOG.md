@@ -7,10 +7,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## 2.0.0 - WORK IN PROGRESS
 ### Added
+ - Some logic to check and move additional CSS classes in an imagezy image to its parent imagezy wrapper element. The reason for this is to achieve consistent and predictable image sizing. Users will be required to assign a custom CSS class—with width and height declarations—to an imagezy image. This CSS class is then moved to the dynamically generated wrapper when the page loads.
  - Filled in the Installation, Getting Started, and Usage README sections.
  - Added Johnny Hu as a copyright owner.
 
 ### Changed
+ - The way the loading icon is rendered. Instead of being pseudo-classes on the wrapper itself, it's now a child span element with its own pseudo classes.
  - CSS styles are no longer injected into the user agent stylesheet. Instead, the CSS is now in its own separate file, which users
  will be required to include in their application in order for the styles to apply.
  - Added and modified a few npm scripts that are used to build the production files. More specifically, Babelify is being used to convert ES6 syntax. Also, node-sass-chokidar - alongside autoprefixer and postcss - now compiles SCSS to CSS, along with a sourcemaps.
