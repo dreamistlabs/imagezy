@@ -1,35 +1,61 @@
-$orange: #f5a623;
-$border-width: 0.5rem;
+$gray:          rgba(230,230,230,0.6);
+$orange:        #f5a623;
+$border-width:  4px;
 
 div.imagezy-wrapper {
   position: relative;
   display: inline-block;
   width: 100%;
   height: 400px;
-  &:after {
-    content: "";
+
+  .imagezy-icon {
     position: absolute;
     left: 50%;
     top: 50%;
+    transform: translate(-50%, -50%);
     margin: -$border-width 0 0 -$border-width;
     width: 5rem;
+    max-width: 80px;
     height: 5rem;
-    border: $border-width solid transparent;
-    border-top: $border-width solid $orange;
-    border-right: $border-width solid $orange;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 1;
+    max-height: 80px;
     transition: opacity 0.5s cubic-bezier(.5,.02,.8,.26);
-    animation: spin 1.5s linear infinite;
-    z-index: 10;
+    opacity: 1;
+    z-index: 5;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      opacity: 1;
+    }
+    &:before {
+      border: $border-width solid $gray;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 44 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><g transform='translate(-762.000000, -13512.000000)' fill='#{$gray}'><g transform='translate(198.000000, 12758.000000)'><path d='M590,754 L582.5,764 L588.2,771.6 L585,774 C581.62,769.5 576,762 576,762 L564,778 L608,778 L590,754'></path></g></g>
+</svg>");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 50% 50%;
+    }
+    &:after {
+      border: $border-width solid transparent;
+      border-top: $border-width solid $orange;
+      animation: spin 2s linear infinite;
+    }
   }
-  &:not(.loading):after { opacity: 0; }
+
+  &:not(.loading) .imagezy-icon { opacity: 0; }
 
   .imagezy-img {
     height: 100%;
     width: 100%;
     opacity: 1;
+    z-index: 1;
     transition: opacity 1s cubic-bezier(.5,.02,.8,.26);
     &[data-src] { opacity: 0; }
   }

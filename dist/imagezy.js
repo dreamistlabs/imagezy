@@ -58,8 +58,8 @@ var initializeImagezy = function initializeImagezy() {
     (0, _functions.wrapImage)(imagezy);
     imagezy.onload = function () {
       imagezy.parentNode.classList.remove('loading');
-      imagezy.parentNode.style.width = "auto";
-      imagezy.parentNode.style.height = "auto";
+      // imagezy.parentNode.style.width = "auto";
+      // imagezy.parentNode.style.height = "auto";
     };
   });
 
@@ -121,9 +121,12 @@ var wrapImage = function wrapImage(image) {
   var currentParent = image.parentNode;
   var imagezy = image;
   var wrapper = document.createElement('div');
+  var icon = document.createElement('span');
   wrapper.classList.add('imagezy-wrapper', 'loading');
+  icon.classList.add('imagezy-icon');
 
   currentParent.insertBefore(wrapper, imagezy);
+  wrapper.appendChild(icon);
   wrapper.appendChild(imagezy);
 };
 

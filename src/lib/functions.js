@@ -42,9 +42,12 @@ const wrapImage = (image) => {
   let currentParent = image.parentNode;
   let imagezy = image;
   let wrapper = document.createElement('div');
+  let icon = document.createElement('span');
   wrapper.classList.add('imagezy-wrapper', 'loading');
+  icon.classList.add('imagezy-icon');
 
   currentParent.insertBefore(wrapper, imagezy);
+  wrapper.appendChild(icon);
   wrapper.appendChild(imagezy);
 }
 

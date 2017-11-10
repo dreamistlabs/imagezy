@@ -51,8 +51,8 @@ const initializeImagezy = () => {
   // Wrap each imagezy with a wrapper and onload trigger function.
   imagezys.forEach((imagezy) => {
     wrapImage(imagezy);
-    imagezy.onload = () => { 
-      imagezy.parentNode.classList.remove('loading'); 
+    imagezy.onload = () => {
+      imagezy.parentNode.classList.remove('loading');
       // imagezy.parentNode.style.width = "auto";
       // imagezy.parentNode.style.height = "auto";
     }
