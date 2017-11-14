@@ -16,7 +16,7 @@ const initializeImagezy = () => {
     imagezys.forEach(function(imagezy) {
       let imgPosition = imagezy.getBoundingClientRect().top;
 
-      if (imgPosition < (window.innerHeight * 0.50) && imagezy.getAttribute('data-src')) {
+      if (imgPosition < (window.innerHeight * 0.5) && imagezy.getAttribute('data-src')) {
         imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
         imagezy.removeAttribute('data-src');
         imagezyCount--;
