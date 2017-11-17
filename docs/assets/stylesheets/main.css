@@ -28,7 +28,7 @@ a {
 a,
 a:active,
 a:visited {
-  color: #333;
+  color: #999;
 }
 a:hover {
   color: #111;
@@ -94,6 +94,12 @@ section#highlights .section__container {
   -webkit-box-shadow: 0px 8px 15px 0px rgba(0,0,0,0.1);
   -moz-box-shadow: 0px 8px 15px 0px rgba(0,0,0,0.1);
   box-shadow: 0px 8px 15px 0px rgba(0,0,0,0.1);
+}
+.main-header a {
+  transition: color .4s linear;
+}
+.main-header.thin-header a {
+  color: #444;
 }
 .logo-container {
   display: inline-block;
