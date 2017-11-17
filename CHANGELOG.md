@@ -7,11 +7,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## 2.0.0 - WORK IN PROGRESS
 ### Added
+- Any imagezy image that hasn't loaded yet when the user reaches the bottom of the page will now load.
+- A minimum height and width attribute, currently set to 150px, has been added to imagezy images that have not been loaded yet. This provides spacing and room for the load icon to appear correctly. If there isn't a set width or height, the image tag and parent container, imagezy-wrapper, would collapse on itself.
 - Some logic to check and move additional CSS classes in an imagezy image to its parent imagezy wrapper element. The reason for this is to achieve consistent and predictable image sizing. Users will be required to assign a custom CSS class—with width and height declarations—to an imagezy image. This CSS class is then moved to the dynamically generated wrapper when the page loads.
 - Filled in the Installation, Getting Started, and Usage README sections.
 - Added Johnny Hu as a copyright owner.
 
 ### Changed
+- An imagezy image's width has been changed from 100% to inherit to ensure that the rendered image only grows as big as the closest parent container with a width attribute declared.
 - The way the loading icon is rendered. Instead of being pseudo-classes on the wrapper itself, it's now a child span element with its own pseudo classes.
 - CSS styles are no longer injected into the user agent stylesheet. Instead, the CSS is now in its own separate file, which users
  will be required to include in their application in order for the styles to apply.

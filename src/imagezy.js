@@ -7,16 +7,20 @@ const initializeImagezy = () => {
   let didScroll = false;
 
   /*!
-   * Checks position of each imagezy and sets its src attribute if its position
-   * is within the threshold of the viewport. It also reduces the imagezyCount
-   * each time an src attribute is set, which is then used to trigger clearInterval
-   * when the count reaches zero.
+   * Checks position of each imagezy, assigning the data-src url to its src attribute
+   * when the image is scroll within the declared threshold within the the viewport OR
+   * if the user has reached the bottom of the page and there are still imagezys yet to
+   * be loaded. It also reduces the imagezyCount each time an src attribute is set,
+   * which is then used to trigger clearInterval when the count reaches zero.
    */
   const checkImagezys = (imagezys) => {
     imagezys.forEach(function(imagezy) {
       let imgPosition = imagezy.getBoundingClientRect().top;
+      let imgInView = imgPosition < window.innerHeight * 0.5;
+      let endOfPage = window.scrollY + window.innerHeight === document.body.clientHeight;
 
-      if (imgPosition < (window.innerHeight * 0.50) && imagezy.getAttribute('data-src')) {
+      if ((imgInView || endOfPage) && imagezy.getAttribute('data-src'))
+      {
         imagezy.setAttribute('src', imagezy.getAttribute('data-src'));
         imagezy.removeAttribute('data-src');
         imagezyCount--;
