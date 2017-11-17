@@ -54,7 +54,7 @@ div.imagezy-wrapper {
     }
   }
   .imagezy-img {
-    width: 100%;
+    width: inherit;
     opacity: 1;
     z-index: 1;
     transition: opacity 1.25s cubic-bezier(.5,.02,.8,.26);
