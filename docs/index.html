@@ -62,6 +62,7 @@
   <section id="getting-started" class="getting-started-section">
     <div class="getting-started-wrapper container">
       <h2 class="section__heading">Getting Started</h2>
+      <h3>Installation</h3>
       <ul class="navigation-tabs">
         <li class="tab-item is-active" data-tab-name="cdn" onclick="switchTab(this);">cdn</li>
         <li class="tab-item" data-tab-name="npm" onclick="switchTab(this);">npm</li>
@@ -145,10 +146,24 @@
           </pre>
         </div>
       </div>
+
+      <h3>Usage</h3>
+      <div class="widget-container">
+        <div class="widget is-active">
+          <h3>cdn</h3>
+          <p>Using a CDN link is quick and easy — plus, you don't have to download anything. Just copy the following code into the <code>&lt;head&gt;</code> section of your webpage.</p>
+          <pre>
+            <code>
+  &lt;script src="https://cdn.jsdelivr.net/gh/dreamistlabs/imagezy/dist/imagezy.min.js"&gt;&lt;/script&gt;
+  &lt;link href="https://cdn.jsdelivr.net/gh/dreamistlabs/imagezy/dist/imagezy.css" rel="stylesheet"&gt;
+            </code>
+          </pre>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="highlights">
+<!--   <section id="highlights">
     <div class="container">
       <h2 class="section__heading">Features</h2>
       <div class="section__container">
@@ -175,9 +190,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
-  <section>
+  <section id="examples" class="examples-section">
+    <div class="examples-wrapper container">
       <h2 class="section__heading">Examples</h2>
       <img class="imagezy-img img-sm"
             data-src="https://cdn.pixabay.com/photo/2013/08/28/00/54/landscape-176602_960_720.jpg" />
@@ -199,6 +215,7 @@
 
       <img class="imagezy-img img-sm"
             data-src="http://eskipaper.com/images/pretty-landscape-sunset-1.jpg" />
+    </div>
   </section>
   <footer id="site-footer" class="main-footer">
     <p class="footer-text">
